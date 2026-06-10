@@ -1258,9 +1258,8 @@ Deploy exact version.
 * Merge preserves history
 * Revert for production rollback
 * Reflog recovers lost commits
-* Git uses DAG internally
+* Git uses DAG (Directed Acyclic Graph) internally
 * Packfiles and delta compression improve performance
-
 ---
 
 # Git Cheat Sheet
