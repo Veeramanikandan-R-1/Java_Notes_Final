@@ -935,6 +935,8 @@ No GC involvement.
 
 ## Spring Boot DTOs
 
+In Spring Boot, a DTO (Data Transfer Object) is a simple Java class used to transfer data between different layers of an application (for example, between the client and the server).
+
 ```java
 public class UserRequest {
 

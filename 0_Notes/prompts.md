@@ -4,7 +4,7 @@ Act as a Principal Java Backend Engineer.
 
 Today's subtopic:
 
-Java Basics - Variables, Data Types
+Operators - All Operators in JAVA
 
 Important Instructions:
 Do NOT give fragmented notes.
@@ -36,11 +36,15 @@ At the end provide:
 
 - Revision Notes
 - Cheat Sheet
-- Interview Questions / Flashcards with answers
+- Interview Questions with answers / Flashcards with answers
 - Active Recall Questions with answers
 - Hands-on Exercises (if topic is relevant to programing give program questions with answers)
 
 Assume I am preparing for Senior Java Backend Engineer roles and your content should cover everything.
+
+
+--
+
 
 ### MASTER LEARNING PROMPT
 When to Use
