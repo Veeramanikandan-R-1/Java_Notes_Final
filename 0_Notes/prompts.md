@@ -4,18 +4,18 @@ Act as a Principal Java Backend Engineer.
 
 Today's subtopic:
 
-Operators - All Operators in JAVA
+Control flow - if else switch
 
 Important Instructions:
 Do NOT give fragmented notes.
-Do NOT give shallow explanations.
+Do NOT give shallow explanations also don't overdump unwanted things also don't miss the required things also, don't repeat the content.
 Build knowledge progressively from fundamentals to advanced concepts.
 Connect every section logically to the previous section.
 Explain not only "what" but also "why", "how", and "when".
 Focus on production-grade engineering knowledge.
-Assume I already know Java basics.
 Use real-world examples from large-scale systems.
-Highlight how this topic is used in Spring Boot, Microservices, Databases, Cloud, and Distributed Systems whenever applicable
+Highlight how this topic is used in Spring Boot, Microservices, Databases, Cloud, and Distributed Systems whenever applicable (but don't overdump)
+
 Teach me:
 
 1. Fundamentals
@@ -36,7 +36,7 @@ At the end provide:
 
 - Revision Notes
 - Cheat Sheet
-- Interview Questions with answers / Flashcards with answers
+- Interview Questions with answers OR Flashcards with answers
 - Active Recall Questions with answers
 - Hands-on Exercises (if topic is relevant to programing give program questions with answers)
 
