@@ -4,7 +4,7 @@ Act as a Principal Java Backend Engineer.
 
 Today's subtopic:
 
-Control flow - if else switch
+Loops - For, While, Do While
 
 Important Instructions:
 Do NOT give fragmented notes.
