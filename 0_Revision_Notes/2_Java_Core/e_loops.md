@@ -1,271 +1,187 @@
 # Revision Notes
 
-* for → known iteration count
-* while → unknown iteration count
-* do-while → execute at least once
-* Enhanced for uses Iterator internally
-* Avoid loading huge collections
-* Prefer pagination and streaming
-* Watch for N+1 query issues
-* Avoid nested loops on large datasets
-* Keep loop bodies lightweight
-* Always ensure termination conditions
-* Retry loops require limits
-* Infinite loops can become production incidents
+```text
+for       -> Known iterations
+
+while     -> Unknown iterations
+
+do-while  -> Execute at least once
+
+for-each  -> Traverse collections
+
+break     -> Exit loop
+
+continue  -> Skip iteration
+
+Nested loops increase complexity
+
+for-each internally uses Iterator
+
+Always check loop boundaries
+
+Avoid infinite loops
+
+Think about Big-O complexity
+```
 
 ---
 
 # Cheat Sheet
 
 ```java
-for(int i=0;i<n;i++)
-```
+// For Loop
+for(int i = 0; i < n; i++) {
+}
 
-```java
-for(Item item : items)
-```
+// While Loop
+while(condition) {
+}
 
-```java
-while(condition)
-```
-
-```java
+// Do While
 do {
+} while(condition);
+
+// For Each
+for(String s : list) {
 }
-while(condition);
+
+// Break
+break;
+
+// Continue
+continue;
 ```
-
-```java
-Iterator<T> iterator = list.iterator();
-```
-
-```java
-while(iterator.hasNext()) {
-    T item = iterator.next();
-}
-```
-
-```java
-Page<T> page
-```
-
-```java
-Stream<T> stream
-```
-
----
-
-# Interview Flashcards
-
-### Q: When use for vs while?
-
-**A:** Use for when iteration count is known. Use while when termination condition is dynamic or unknown.
-
----
-
-### Q: How does enhanced for work internally?
-
-**A:** Compiler converts it to Iterator-based traversal.
-
----
-
-### Q: Why is findAll() dangerous?
-
-**A:** Loads entire dataset into memory, causing OOM risks.
-
----
-
-### Q: What is the N+1 problem?
-
-**A:** Loop accesses lazily loaded entities causing one query per iteration.
-
----
-
-### Q: Why avoid nested loops?
-
-**A:** Often introduces O(n²) complexity.
-
----
-
-### Q: Why is do-while rarely used in backend systems?
-
-**A:** Most backend processing requires condition evaluation before execution.
-
----
-
-### Q: What causes ConcurrentModificationException?
-
-**A:** Modifying a collection while iterating through it using enhanced for or an iterator improperly.
-
----
-
-### Q: Why use pagination?
-
-**A:** Controls memory consumption and improves scalability.
-
----
-
-# Active Recall Questions (with Answers)
-
-### 1. Which loop guarantees at least one execution?
-
-**Answer:** do-while.
-
----
-
-### 2. What does enhanced for compile into?
-
-**Answer:** Iterator-based traversal.
-
----
-
-### 3. What database issue commonly appears inside loops?
-
-**Answer:** N+1 query problem.
-
----
-
-### 4. Why are nested loops dangerous?
-
-**Answer:** Time complexity can grow to O(n²) or worse.
-
----
-
-### 5. What should be used instead of processing 10 million rows in memory?
-
-**Answer:** Pagination, streaming, chunk processing.
-
----
-
-### 6. Why should retry loops have limits?
-
-**Answer:** Prevent infinite retries and retry storms.
-
----
-
-### 7. What exception occurs when modifying a collection during iteration?
-
-**Answer:** ConcurrentModificationException.
-
----
-
-### 8. What is the preferred loop for traversing collections?
-
-**Answer:** Enhanced for-loop when index is not needed.
 
 ---
 
 # Hands-On Exercises
 
-## Exercise 1 — Retry Logic
+## 1. Print Numbers 1 to 100
 
-Implement:
-
-```java
-callExternalService()
-```
-
-Retry 3 times before failing.
-
-### Answer
+**Solution**
 
 ```java
-for(int attempt = 1; attempt <= 3; attempt++) {
-
-    try {
-        callExternalService();
-        break;
-
-    } catch(Exception ex) {
-
-        if(attempt == 3)
-            throw ex;
-    }
+for(int i = 1; i <= 100; i++) {
+    System.out.println(i);
 }
 ```
 
 ---
 
-## Exercise 2 — Paginated Customer Processing
-
-Process customers in pages of 1000.
-
-### Answer
-
-```java
-int page = 0;
-
-Page<Customer> customers;
-
-do {
-
-    customers =
-        repository.findAll(PageRequest.of(page++,1000));
-
-    for(Customer customer : customers) {
-        process(customer);
-    }
-
-} while(customers.hasNext());
-```
-
----
-
-## Exercise 3 — Remove Invalid Orders Safely
-
-Given:
-
-```java
-List<Order> orders;
-```
-
-Remove cancelled orders.
-
-### Answer
-
-```java
-Iterator<Order> iterator = orders.iterator();
-
-while(iterator.hasNext()) {
-
-    Order order = iterator.next();
-
-    if(order.isCancelled()) {
-        iterator.remove();
-    }
-}
-```
-
----
-
-## Exercise 4 — Detect N+1 Query Problem
-
-Given:
-
-```java
-for(Order order : orders) {
-    System.out.println(order.getItems().size());
-}
-```
-
-**Answer:** `items` may be lazily loaded, causing one query per order. Fix using `JOIN FETCH` or `@EntityGraph`.
-
----
-
-## Exercise 5 — Convert Index Loop to Enhanced For
+## 2. Sum Numbers 1 to N
 
 Input:
 
 ```java
-for(int i=0;i<orders.size();i++) {
-    process(orders.get(i));
-}
+N = 5
 ```
 
-### Answer
+Output:
+
+```text
+15
+```
+
+**Solution**
 
 ```java
-for(Order order : orders) {
-    process(order);
+int sum = 0;
+
+for(int i = 1; i <= 5; i++) {
+    sum += i;
+}
+
+System.out.println(sum);
+```
+
+---
+
+## 3. Count Even Numbers
+
+**Solution**
+
+```java
+for(int i = 1; i <= 100; i++) {
+
+    if(i % 2 == 0) {
+        System.out.println(i);
+    }
+
 }
 ```
+
+---
+
+## 4. Find Maximum Element
+
+**Solution**
+
+```java
+int[] arr = {4, 8, 2, 10, 3};
+
+int max = arr[0];
+
+for(int num : arr) {
+
+    if(num > max) {
+        max = num;
+    }
+
+}
+
+System.out.println(max);
+```
+
+---
+
+## 5. Count Occurrences
+
+Input:
+
+```java
+{1,2,3,2,2,4}
+```
+
+Count occurrences of 2.
+
+**Solution**
+
+```java
+int count = 0;
+
+for(int num : arr) {
+
+    if(num == 2) {
+        count++;
+    }
+
+}
+```
+
+---
+
+## 6. Remove Invalid Users
+
+Given:
+
+```java
+List<User>
+```
+
+Create another list containing only active users.
+
+**Solution**
+
+```java
+List<User> activeUsers = new ArrayList<>();
+
+for(User user : users) {
+
+    if(user.isActive()) {
+        activeUsers.add(user);
+    }
+
+}
+```
+
+This exercise resembles actual Spring Boot service-layer code.

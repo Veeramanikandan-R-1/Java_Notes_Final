@@ -1,1468 +1,1066 @@
-# Loops in Java (for, while, do-while) — Senior Backend Engineer Perspective
+# Java Loops
 
-Most developers learn loops in their first week of Java.
+Before learning Collections, Streams, Multithreading, and Spring Boot data processing, you must understand loops well.
 
-Senior backend engineers spend years dealing with the consequences of poorly designed loops.
-
-In production systems, loops are rarely about printing numbers.
-
-They are about:
-
-* Processing millions of records
-* Streaming data
-* Database pagination
-* Event consumption
-* Retry mechanisms
-* Batch jobs
-* Distributed workflows
-* Memory management
-* Throughput optimization
-
-Understanding loops at a deep level is essential because almost every scalability, performance, and reliability problem eventually involves iteration.
-
----
-
-Throughput in Software Development
-Simple Definition
-
-Throughput = Amount of work completed per unit of time.
-
-Formula:
-
-Throughput=
-Time
-Number of completed operations
-	​
-
-
-Examples:
-
-API service processes 5,000 requests/second
-Kafka consumer processes 100,000 messages/minute
-Payment service processes 2,000 transactions/second
-Database executes 50,000 queries/minute
-
-All of these are throughput measurements.
+A loop is one of the fundamental control-flow mechanisms in programming.
 
 ---
 
 # 1. Fundamentals
 
-Before discussing loop types, understand what a loop fundamentally represents.
+## What is a Loop?
 
-A loop is:
+A loop repeatedly executes a block of code until a condition becomes false.
 
-> Controlled repeated execution of a block of code until a termination condition is reached.
-
-Every loop has three components:
-
-### 1. Initialization
-
-Where iteration starts.
+Without loops:
 
 ```java
-int i = 0;
+System.out.println("Hello");
+System.out.println("Hello");
+System.out.println("Hello");
+System.out.println("Hello");
+System.out.println("Hello");
 ```
 
-### 2. Condition
-
-Whether execution should continue.
+With a loop:
 
 ```java
-i < 10
+for(int i = 0; i < 5; i++) {
+    System.out.println("Hello");
+}
 ```
-
-### 3. Update
-
-How iteration progresses.
-
-```java
-i++
-```
-
-Without a proper update, loops become infinite.
-
-Without a proper condition, loops become dangerous.
-
-Without proper initialization, loops become incorrect.
 
 ---
 
-# Why Loops Matter in Backend Systems
+## Why Do Loops Exist?
 
-Backend systems continuously process collections:
+Real applications process multiple items:
 
+* Users
 * Orders
-* Customers
-* Messages
-* Kafka records
-* Database rows
-* Cache entries
-* API requests
+* Products
+* Files
+* Database records
+* API responses
 
 Example:
 
 ```java
-for (Order order : orders) {
-    process(order);
-}
+List<User> users = getUsers();
 ```
 
-Looks simple.
+You need a mechanism to process each user.
 
-In production this may process:
+Loops solve this problem.
+
+---
+
+## Mental Model
+
+Every loop has 3 components:
 
 ```text
-10 orders
-1000 orders
-10 million orders
+Start
+  ↓
+Condition Check
+  ↓
+Execute Code
+  ↓
+Update State
+  ↓
+Condition Check Again
 ```
 
-The loop itself becomes part of system scalability.
-
----
-
-# 2. The For Loop
-
----
-
-## What
-
-The most structured loop.
+Example:
 
 ```java
-for (int i = 0; i < 10; i++) {
+for(int i = 1; i <= 3; i++) {
     System.out.println(i);
 }
 ```
 
----
+Execution:
 
-## Why It Exists
-
-When:
-
-* Start is known
-* End is known
-* Increment is known
-
-A for loop keeps everything visible in one place.
+```text
+i=1 → print 1
+i=2 → print 2
+i=3 → print 3
+i=4 → stop
+```
 
 ---
 
-## Internal Structure
+# 2. Types of Loops
 
-Java compiler treats:
+Java provides:
+
+1. for loop
+2. while loop
+3. do-while loop
+4. enhanced for loop (for-each)
+
+---
+
+# 3. For Loop
+
+Most commonly used loop.
+
+## Syntax
 
 ```java
-for(int i = 0; i < 10; i++) {
-    work();
+for(initialization; condition; update) {
+    // code
 }
 ```
 
-Almost like:
+Example:
 
 ```java
-int i = 0;
-
-while(i < 10) {
-    work();
-    i++;
+for(int i = 1; i <= 5; i++) {
+    System.out.println(i);
 }
 ```
 
-A for loop is largely syntactic sugar around a while loop.
+Output:
 
----
-
-## Production Usage
-
-### Pagination Processing
-
-```java
-for(int page = 0; page < totalPages; page++) {
-    processPage(page);
-}
+```text
+1
+2
+3
+4
+5
 ```
-
-Common in:
-
-* Spring Batch
-* Data migration
-* ETL pipelines
-
----
-
-### Retry Logic
-
-```java
-for(int attempt = 1; attempt <= 3; attempt++) {
-
-    try {
-        callExternalService();
-        break;
-    } catch(Exception ex) {
-        log.warn("Retry {}", attempt);
-    }
-}
-```
-
-Used in:
-
-* Microservices
-* External API integrations
-* Message processing
-
----
-
-# Enhanced For Loop (For-Each)
-
----
-
-## What
-
-Introduced for collection traversal.
-
-```java
-for(Order order : orders) {
-    process(order);
-}
-```
-
----
-
-## Why
-
-Avoid manual index management.
-
-Instead of:
-
-```java
-for(int i=0;i<orders.size();i++) {
-    process(orders.get(i));
-}
-```
-
-Use:
-
-```java
-for(Order order : orders)
-```
-
-Cleaner and safer.
 
 ---
 
 ## Internal Working
 
-Compiler converts:
-
 ```java
-for(Order order : orders)
-```
-
-Into:
-
-```java
-Iterator<Order> iterator = orders.iterator();
-
-while(iterator.hasNext()) {
-    Order order = iterator.next();
+for(int i = 1; i <= 5; i++) {
+    System.out.println(i);
 }
 ```
 
-This is important for interview discussions.
+Equivalent to:
+
+```java
+int i = 1;
+
+while(i <= 5) {
+    System.out.println(i);
+    i++;
+}
+```
+
+Execution Flow:
+
+```text
+Initialize i
+    ↓
+Check condition
+    ↓
+Execute body
+    ↓
+Update i
+    ↓
+Check condition again
+```
 
 ---
 
-## When Not To Use
+## When to Use
 
-When index is required.
-
-```java
-for(int i=0;i<items.size();i++)
-```
+Use when number of iterations is known.
 
 Examples:
 
-* Comparing adjacent elements
-* Pagination logic
-* Batch partitioning
-
----
-
-# 3. While Loop
-
----
-
-## What
-
-Repeats while condition remains true.
-
 ```java
-while(condition) {
-    execute();
-}
+for(int i = 0; i < 10; i++)
 ```
 
----
-
-## Why
-
-Used when iteration count is unknown.
-
-Unlike for loops.
+```java
+for(int i = 0; i < array.length; i++)
+```
 
 ---
 
 ## Production Example
 
-Message Consumption
+Processing paginated records:
 
 ```java
-while(queue.hasMessages()) {
-    process(queue.next());
+for(int page = 0; page < totalPages; page++) {
+    fetchPage(page);
 }
 ```
 
-You don't know beforehand:
+---
 
-* Number of messages
-* Processing duration
+# 4. While Loop
 
-Therefore while is appropriate.
+Used when iteration count is unknown.
+
+## Syntax
+
+```java
+while(condition) {
+    // code
+}
+```
+
+Example:
+
+```java
+int count = 1;
+
+while(count <= 5) {
+    System.out.println(count);
+    count++;
+}
+```
 
 ---
 
-## Real World Example
+## Internal Working
 
-Reading file data.
+```text
+Condition
+   ↓
+True?
+   ↓
+Execute
+   ↓
+Back to Condition
+```
+
+---
+
+## When to Use
+
+Use when stopping condition is dynamic.
+
+Examples:
+
+### Reading File
 
 ```java
 while(scanner.hasNextLine()) {
-    process(scanner.nextLine());
+    System.out.println(scanner.nextLine());
 }
 ```
 
-Number of lines is unknown.
-
----
-
-# Internal Working
-
-Execution order:
-
-```text
-Check Condition
-Execute Body
-Check Condition
-Execute Body
-...
-```
-
-Condition checked before every iteration.
-
----
-
-# 4. Do-While Loop
-
----
-
-## What
-
-Condition evaluated after execution.
+### Polling
 
 ```java
-do {
-    work();
-}
-while(condition);
-```
-
----
-
-## Key Difference
-
-Body executes at least once.
-
-Always.
-
----
-
-## Internal Flow
-
-```text
-Execute Body
-Check Condition
-Repeat if true
-```
-
----
-
-## Production Usage
-
-Rare.
-
-Very rare in enterprise applications.
-
-Most backend systems prefer:
-
-* for
-* while
-
----
-
-## Valid Use Cases
-
-Menu systems.
-
-CLI tools.
-
-User interaction loops.
-
-```java
-do {
-    input = readInput();
-}
-while(inputInvalid(input));
-```
-
----
-
-# Comparison
-
-| Loop     | Condition Check | Minimum Executions |
-| -------- | --------------- | ------------------ |
-| for      | Before          | 0                  |
-| while    | Before          | 0                  |
-| do-while | After           | 1                  |
-
----
-
-# 5. Internal Working (JVM Perspective)
-
-Java source:
-
-```java
-for(int i=0;i<5;i++)
-```
-
-Compiler converts to bytecode.
-
-Conceptually:
-
-```assembly
-LOAD i
-COMPARE
-JUMP_IF_FALSE
-EXECUTE_BODY
-INCREMENT
-JUMP_BACK
-```
-
-Looping is implemented using jump instructions.
-
-There is no special CPU "for loop" instruction.
-
-Only branching.
-
----
-
-# JIT Optimization
-
-HotSpot JVM may optimize loops via:
-
-### Loop Unrolling
-
-Instead of:
-
-```java
-for(int i=0;i<4;i++)
-```
-
-Compiler may transform into:
-
-```java
-work(0);
-work(1);
-work(2);
-work(3);
-```
-
-Reducing branch overhead.
-
----
-
-### Dead Code Elimination
-
-Unused loop work may disappear.
-
----
-
-### Bounds Check Elimination
-
-Array access checks may be optimized away.
-
----
-
-Senior interviews occasionally explore these topics.
-
----
-
-# 6. Production Usage
-
----
-
-# Batch Processing
-
-Spring Batch:
-
-```java
-for(Customer customer : customers) {
-    migrate(customer);
+while(!jobCompleted()) {
+    Thread.sleep(1000);
 }
 ```
 
-Common migration jobs process:
-
-```text
-1 million+
-records
-```
-
-Loop design directly impacts performance.
-
 ---
 
-# Kafka Consumers
+## Production Example
+
+Kafka Consumer:
 
 ```java
 while(true) {
-
-    ConsumerRecords<String, String> records =
-            consumer.poll(Duration.ofSeconds(1));
-
-    for(var record : records) {
-        process(record);
-    }
+    consumer.poll();
 }
 ```
 
-This pattern exists in nearly every event-driven system.
+Runs continuously until service shuts down.
 
 ---
 
-# Scheduled Jobs
+# 5. Do-While Loop
+
+Rare in backend applications.
+
+## Syntax
 
 ```java
-for(Order order : pendingOrders) {
-    retryPayment(order);
+do {
+    // code
+} while(condition);
+```
+
+Example:
+
+```java
+int count = 1;
+
+do {
+    System.out.println(count);
+    count++;
+} while(count <= 5);
+```
+
+---
+
+## Difference from While
+
+While:
+
+```java
+while(condition)
+```
+
+Condition checked first.
+
+Do-While:
+
+```java
+do
+```
+
+Code executes first.
+
+---
+
+### Example
+
+```java
+int x = 10;
+
+while(x < 5) {
+    System.out.println("Hello");
 }
 ```
 
-Cron-based processing.
-
----
-
-# Distributed Systems
-
-Service reconciliation jobs:
-
-```java
-for(Transaction tx : transactions) {
-    verifyConsistency(tx);
-}
-```
-
-Common in:
-
-* Banking
-* Payments
-* Inventory systems
-
----
-
-# 7. Performance Considerations
-
-Performance matters when loops process large datasets.
-
----
-
-## Avoid Expensive Work Inside Loop
-
-Bad
-
-```java
-for(Order order : orders) {
-    loadConfiguration();
-}
-```
-
-Configuration loaded repeatedly.
-
----
-
-Good
-
-```java
-Config config = loadConfiguration();
-
-for(Order order : orders) {
-    process(order, config);
-}
-```
-
----
-
-## Avoid Repeated Collection Size Calls
-
-Bad
-
-```java
-for(int i=0;i<list.size();i++)
-```
-
-Some collections compute size dynamically.
-
-Safer:
-
-```java
-int size = list.size();
-
-for(int i=0;i<size;i++)
-```
-
-Though modern JVMs often optimize this.
-
----
-
-## Minimize Object Creation
-
-Bad
-
-```java
-for(Order order : orders) {
-    ObjectMapper mapper = new ObjectMapper();
-}
-```
-
-Creates thousands of objects.
-
----
-
-Good
-
-```java
-ObjectMapper mapper = new ObjectMapper();
-
-for(Order order : orders) {
-}
-```
-
----
-
-## Avoid Nested Loops on Large Data
-
-Bad
-
-```java
-for(Customer c : customers) {
-    for(Order o : orders) {
-    }
-}
-```
-
-Complexity:
+Output:
 
 ```text
-O(n²)
+Nothing
 ```
 
-Dangerous at scale.
+Do-while:
+
+```java
+int x = 10;
+
+do {
+    System.out.println("Hello");
+} while(x < 5);
+```
+
+Output:
+
+```text
+Hello
+```
 
 ---
+
+## When to Use
+
+Only when code must execute at least once.
+
+Rare in enterprise Java.
+
+---
+
+# 6. Enhanced For Loop (For-Each)
+
+Introduced to simplify collection traversal.
+
+## Syntax
+
+```java
+for(Type variable : collection)
+```
+
+Example:
+
+```java
+String[] names = {"John", "Mike", "Sam"};
+
+for(String name : names) {
+    System.out.println(name);
+}
+```
+
+---
+
+## Collection Example
+
+```java
+List<String> users = List.of(
+        "Alice",
+        "Bob",
+        "Charlie"
+);
+
+for(String user : users) {
+    System.out.println(user);
+}
+```
+
+---
+
+## Internal Working
+
+Behind the scenes:
+
+```java
+for(String user : users)
+```
+
+Uses Iterator.
+
+Conceptually:
+
+```java
+Iterator<String> iterator = users.iterator();
+
+while(iterator.hasNext()) {
+    String user = iterator.next();
+}
+```
+
+You'll learn Iterators in Collections.
+
+---
+
+## When to Use
+
+Read-only traversal.
+
+Preferred for:
+
+```java
+List
+Set
+Array
+```
+
+---
+
+## When NOT to Use
+
+When index is needed.
+
+Bad:
+
+```java
+for(String name : names)
+```
+
+Need position?
 
 Use:
 
 ```java
-Map<Long, Order>
-```
-
-Lookup becomes:
-
-```text
-O(1)
+for(int i = 0; i < names.size(); i++)
 ```
 
 ---
 
-# 8. Memory Considerations
+# 7. Loop Control Statements
 
 ---
 
-## Loading Everything Into Memory
+# break
 
-Bad
+Terminates loop immediately.
+
+Example:
 
 ```java
-List<Customer> customers =
-        repository.findAll();
-```
+for(int i = 1; i <= 10; i++) {
 
-Then:
+    if(i == 5) {
+        break;
+    }
 
-```java
-for(Customer c : customers)
-```
-
-If:
-
-```text
-10 million rows
-```
-
-Application crashes.
-
----
-
-## Use Pagination
-
-```java
-Page<Customer> page;
-```
-
-Process page by page.
-
----
-
-## Streaming
-
-Spring Data JPA:
-
-```java
-Stream<Customer> stream
-```
-
-Process incrementally.
-
-Much safer.
-
----
-
-## Iterator-Based Processing
-
-Consumes less memory.
-
-```java
-Iterator<Customer>
-```
-
-Instead of huge lists.
-
----
-
-# 9. Security Considerations
-
-Loops can become attack vectors.
-
----
-
-# Infinite Loop Attacks
-
-Bad validation:
-
-```java
-while(true) {
+    System.out.println(i);
 }
 ```
 
-Consumes CPU forever.
-
----
-
-# Unbounded Processing
-
-Attacker uploads:
+Output:
 
 ```text
-5 GB file
+1
+2
+3
+4
 ```
-
-Loop processes everything.
-
-Potential DoS attack.
 
 ---
 
-Always impose limits.
+## Production Example
+
+Find first matching user.
 
 ```java
-if(records.size() > MAX_LIMIT)
+for(User user : users) {
+
+    if(user.getId().equals(id)) {
+        found = user;
+        break;
+    }
+}
 ```
 
 ---
 
-# Retry Storms
+# continue
+
+Skips current iteration.
+
+Example:
+
+```java
+for(int i = 1; i <= 5; i++) {
+
+    if(i == 3) {
+        continue;
+    }
+
+    System.out.println(i);
+}
+```
+
+Output:
+
+```text
+1
+2
+4
+5
+```
+
+---
+
+## Production Example
+
+Skip inactive users.
+
+```java
+for(User user : users) {
+
+    if(!user.isActive()) {
+        continue;
+    }
+
+    process(user);
+}
+```
+
+---
+
+# Nested Loops
+
+Loop inside another loop.
+
+Example:
+
+```java
+for(int i = 1; i <= 3; i++) {
+
+    for(int j = 1; j <= 3; j++) {
+        System.out.println(i + "," + j);
+    }
+
+}
+```
+
+Output:
+
+```text
+1,1
+1,2
+1,3
+2,1
+...
+```
+
+---
+
+## Complexity Impact
+
+Single loop:
+
+```java
+O(n)
+```
+
+Nested loop:
+
+```java
+O(n²)
+```
+
+Very important in interviews.
+
+---
+
+# Real-World Backend Scenarios
+
+## Processing Database Records
+
+```java
+for(User user : users) {
+    sendEmail(user);
+}
+```
+
+---
+
+## Batch Processing
+
+```java
+for(Order order : orders) {
+    process(order);
+}
+```
+
+---
+
+## Validation
+
+```java
+for(Product product : products) {
+
+    if(product.getPrice() < 0) {
+        throw new IllegalArgumentException();
+    }
+
+}
+```
+
+---
+
+## Building Responses
+
+```java
+List<UserDto> result = new ArrayList<>();
+
+for(User user : users) {
+    result.add(convert(user));
+}
+```
+
+Very common in Spring Boot.
+
+---
+
+# Common Mistakes
+
+## 1. Infinite Loop
 
 Bad:
 
 ```java
 while(true) {
-    retry();
 }
 ```
 
-Can destroy downstream systems.
+No exit condition.
 
-Always use:
-
-* Retry limits
-* Exponential backoff
+CPU consumption becomes 100%.
 
 ---
 
-# 10. Spring Boot Usage
+## 2. Wrong Boundary Condition
 
----
-
-# Processing Repository Results
+Bad:
 
 ```java
-for(Order order : repository.findAll())
+for(int i = 0; i <= arr.length; i++)
 ```
 
-Acceptable only for small datasets.
-
----
-
-For large datasets:
-
-```java
-Page<Order>
-```
-
-or
-
-```java
-Slice<Order>
-```
-
----
-
-# Spring Batch
-
-Chunk processing.
-
-```java
-for(Customer customer : chunk)
-```
-
-Very common.
-
----
-
-# Async Processing
-
-```java
-for(Task task : tasks) {
-
-    executor.submit(() -> process(task));
-}
-```
-
-Loop dispatches work.
-
-Threads perform execution.
-
----
-
-# 11. Database Impact
-
-This is where many senior interviews focus.
-
----
-
-# N+1 Query Problem
-
-Bad
-
-```java
-for(Order order : orders) {
-
-    order.getItems().size();
-}
-```
-
-If items are lazy loaded:
+Produces:
 
 ```text
-1 query for orders
-1000 queries for items
+ArrayIndexOutOfBoundsException
 ```
 
-Total:
+Correct:
+
+```java
+for(int i = 0; i < arr.length; i++)
+```
+
+---
+
+## 3. Modifying Collection During Iteration
+
+Bad:
+
+```java
+for(String name : names) {
+    names.remove(name);
+}
+```
+
+Produces:
 
 ```text
-1001 queries
-```
-
-Huge performance issue.
-
----
-
-Fix
-
-```java
-JOIN FETCH
-```
-
-or
-
-```java
-@EntityGraph
-```
-
----
-
-# Massive Updates
-
-Bad
-
-```java
-for(Customer c : customers) {
-    repository.save(c);
-}
-```
-
-Thousands of transactions.
-
----
-
-Better
-
-Batch updates.
-
-```java
-saveAll()
-```
-
-or JDBC batch processing.
-
----
-
-# 12. Common Mistakes
-
----
-
-## Infinite Loops
-
-```java
-while(i < 10) {
-}
-```
-
-Missing increment.
-
----
-
-## Off-by-One Errors
-
-Bad
-
-```java
-for(int i=0;i<=list.size();i++)
-```
-
-Last index invalid.
-
----
-
-Correct
-
-```java
-i < list.size()
-```
-
----
-
-## Modifying Collection During Iteration
-
-Bad
-
-```java
-for(String item : items) {
-    items.remove(item);
-}
-```
-
-Throws:
-
-```java
 ConcurrentModificationException
 ```
 
 ---
 
-Use iterator.
+## 4. Unnecessary Nested Loops
+
+Bad:
 
 ```java
-iterator.remove();
+for(...)
+    for(...)
 ```
 
+Without considering complexity.
+
+Can destroy performance.
+
 ---
 
-## Fetching Entire Table
+## 5. Using While Instead of For
 
-Bad
+Bad:
 
 ```java
-repository.findAll()
+int i = 0;
+
+while(i < 10) {
+    i++;
+}
 ```
 
-for huge datasets.
+Use for-loop when count is known.
 
 ---
 
-# 13. Best Practices
+# Best Practices
 
-### Prefer Enhanced For Loop
+## Use Enhanced For Loop for Reading
 
-When index not required.
-
----
-
-### Prefer Pagination For Large Data
-
-Never process millions in memory.
-
----
-
-### Keep Loop Body Lightweight
-
-Heavy work outside loop.
-
----
-
-### Avoid Nested Loops
-
-Use maps and indexing.
-
----
-
-### Make Termination Conditions Obvious
-
-Readable code.
-
----
-
-### Monitor Complexity
-
-O(n)
-
-Good.
-
-O(n²)
-
-Be cautious.
-
-O(n³)
-
-Usually unacceptable.
-
----
-
-# Code Examples
-
-## Retry with Limit
+Preferred:
 
 ```java
-for(int attempt=1; attempt<=3; attempt++) {
+for(User user : users)
+```
 
-    try {
-        paymentClient.charge();
-        return;
+Readable and safe.
 
-    } catch(Exception ex) {
+---
 
-        if(attempt == 3)
-            throw ex;
-    }
+## Keep Loop Body Small
+
+Bad:
+
+```java
+for(User user : users) {
+   // 100 lines
+}
+```
+
+Good:
+
+```java
+for(User user : users) {
+    processUser(user);
 }
 ```
 
 ---
 
-## Pagination Processing
+## Avoid Deep Nesting
+
+Bad:
 
 ```java
-int page = 0;
-
-Page<Customer> customers;
-
-do {
-
-    customers =
-            repository.findAll(PageRequest.of(page++, 1000));
-
-    for(Customer customer : customers) {
-        process(customer);
-    }
-
-} while(customers.hasNext());
+for(...)
+    if(...)
+        while(...)
+            if(...)
 ```
+
+Hard to maintain.
 
 ---
 
-## Kafka Consumer
+## Prefer Streams for Complex Transformations
+
+Instead of:
+
+```java
+for(...)
+```
+
+Modern Java often uses:
+
+```java
+users.stream()
+```
+
+But learn loops first.
+
+Streams are built on the same iteration concepts.
+
+---
+
+## Consider Time Complexity
+
+Always ask:
+
+```text
+How many times will this execute?
+```
+
+Senior engineers think about performance.
+
+---
+
+# Interview Questions & Answers
+
+## What is the difference between while and do-while?
+
+**Answer**
+
+while checks condition before execution.
+
+do-while executes at least once.
+
+---
+
+## When should you use a for loop?
+
+When number of iterations is known.
+
+---
+
+## When should you use a while loop?
+
+When termination condition is dynamic or unknown.
+
+---
+
+## Difference between for loop and enhanced for loop?
+
+| For Loop             | Enhanced For |
+| -------------------- | ------------ |
+| Has index            | No index     |
+| More control         | Simpler      |
+| Can modify via index | Read-focused |
+
+---
+
+## What is an infinite loop?
+
+A loop whose condition never becomes false.
+
+Example:
 
 ```java
 while(true) {
-
-    ConsumerRecords<String,String> records =
-            consumer.poll(Duration.ofSeconds(1));
-
-    for(var record : records) {
-        process(record);
-    }
 }
 ```
 
 ---
 
-# Real-World Scenarios
+## What is the time complexity of nested loops?
 
-### Scenario 1
-
-Process 50 million customer records.
-
-Solution:
-
-* Pagination
-* Streaming
-* Batch processing
-
-Not:
+Typically:
 
 ```java
-findAll()
+O(n²)
 ```
 
 ---
 
-### Scenario 2
+## How does enhanced for loop work internally?
 
-Retry payment gateway.
-
-Solution:
-
-```java
-for(attempt=1; attempt<=3)
-```
-
-with exponential backoff.
-
----
-
-### Scenario 3
-
-Kafka consumer service.
-
-Outer loop:
-
-```java
-while(true)
-```
-
-Inner loop:
-
-```java
-for(record : records)
-```
-
-Extremely common.
-
----
-
-### Scenario 4
-
-Database migration.
-
-```java
-for(page ...)
-```
-
-Process records chunk by chunk.
+Uses Iterator internally for collections.
 
 ---
 
 # Revision Notes
 
-* for → known iteration count
-* while → unknown iteration count
-* do-while → execute at least once
-* Enhanced for uses Iterator internally
-* Avoid loading huge collections
-* Prefer pagination and streaming
-* Watch for N+1 query issues
-* Avoid nested loops on large datasets
-* Keep loop bodies lightweight
-* Always ensure termination conditions
-* Retry loops require limits
-* Infinite loops can become production incidents
+```text
+for       -> Known iterations
+
+while     -> Unknown iterations
+
+do-while  -> Execute at least once
+
+for-each  -> Traverse collections
+
+break     -> Exit loop
+
+continue  -> Skip iteration
+
+Nested loops increase complexity
+
+for-each internally uses Iterator
+
+Always check loop boundaries
+
+Avoid infinite loops
+
+Think about Big-O complexity
+```
 
 ---
 
 # Cheat Sheet
 
 ```java
-for(int i=0;i<n;i++)
-```
+// For Loop
+for(int i = 0; i < n; i++) {
+}
 
-```java
-for(Item item : items)
-```
+// While Loop
+while(condition) {
+}
 
-```java
-while(condition)
-```
-
-```java
+// Do While
 do {
+} while(condition);
+
+// For Each
+for(String s : list) {
 }
-while(condition);
+
+// Break
+break;
+
+// Continue
+continue;
 ```
-
-```java
-Iterator<T> iterator = list.iterator();
-```
-
-```java
-while(iterator.hasNext()) {
-    T item = iterator.next();
-}
-```
-
-```java
-Page<T> page
-```
-
-```java
-Stream<T> stream
-```
-
----
-
-# Interview Flashcards
-
-### Q: When use for vs while?
-
-**A:** Use for when iteration count is known. Use while when termination condition is dynamic or unknown.
-
----
-
-### Q: How does enhanced for work internally?
-
-**A:** Compiler converts it to Iterator-based traversal.
-
----
-
-### Q: Why is findAll() dangerous?
-
-**A:** Loads entire dataset into memory, causing OOM risks.
-
----
-
-### Q: What is the N+1 problem?
-
-**A:** Loop accesses lazily loaded entities causing one query per iteration.
-
----
-
-### Q: Why avoid nested loops?
-
-**A:** Often introduces O(n²) complexity.
-
----
-
-### Q: Why is do-while rarely used in backend systems?
-
-**A:** Most backend processing requires condition evaluation before execution.
-
----
-
-### Q: What causes ConcurrentModificationException?
-
-**A:** Modifying a collection while iterating through it using enhanced for or an iterator improperly.
-
----
-
-### Q: Why use pagination?
-
-**A:** Controls memory consumption and improves scalability.
-
----
-
-# Active Recall Questions (with Answers)
-
-### 1. Which loop guarantees at least one execution?
-
-**Answer:** do-while.
-
----
-
-### 2. What does enhanced for compile into?
-
-**Answer:** Iterator-based traversal.
-
----
-
-### 3. What database issue commonly appears inside loops?
-
-**Answer:** N+1 query problem.
-
----
-
-### 4. Why are nested loops dangerous?
-
-**Answer:** Time complexity can grow to O(n²) or worse.
-
----
-
-### 5. What should be used instead of processing 10 million rows in memory?
-
-**Answer:** Pagination, streaming, chunk processing.
-
----
-
-### 6. Why should retry loops have limits?
-
-**Answer:** Prevent infinite retries and retry storms.
-
----
-
-### 7. What exception occurs when modifying a collection during iteration?
-
-**Answer:** ConcurrentModificationException.
-
----
-
-### 8. What is the preferred loop for traversing collections?
-
-**Answer:** Enhanced for-loop when index is not needed.
 
 ---
 
 # Hands-On Exercises
 
-## Exercise 1 — Retry Logic
+## 1. Print Numbers 1 to 100
 
-Implement:
-
-```java
-callExternalService()
-```
-
-Retry 3 times before failing.
-
-### Answer
+**Solution**
 
 ```java
-for(int attempt = 1; attempt <= 3; attempt++) {
-
-    try {
-        callExternalService();
-        break;
-
-    } catch(Exception ex) {
-
-        if(attempt == 3)
-            throw ex;
-    }
+for(int i = 1; i <= 100; i++) {
+    System.out.println(i);
 }
 ```
 
 ---
 
-## Exercise 2 — Paginated Customer Processing
-
-Process customers in pages of 1000.
-
-### Answer
-
-```java
-int page = 0;
-
-Page<Customer> customers;
-
-do {
-
-    customers =
-        repository.findAll(PageRequest.of(page++,1000));
-
-    for(Customer customer : customers) {
-        process(customer);
-    }
-
-} while(customers.hasNext());
-```
-
----
-
-## Exercise 3 — Remove Invalid Orders Safely
-
-Given:
-
-```java
-List<Order> orders;
-```
-
-Remove cancelled orders.
-
-### Answer
-
-```java
-Iterator<Order> iterator = orders.iterator();
-
-while(iterator.hasNext()) {
-
-    Order order = iterator.next();
-
-    if(order.isCancelled()) {
-        iterator.remove();
-    }
-}
-```
-
----
-
-## Exercise 4 — Detect N+1 Query Problem
-
-Given:
-
-```java
-for(Order order : orders) {
-    System.out.println(order.getItems().size());
-}
-```
-
-**Answer:** `items` may be lazily loaded, causing one query per order. Fix using `JOIN FETCH` or `@EntityGraph`.
-
----
-
-## Exercise 5 — Convert Index Loop to Enhanced For
+## 2. Sum Numbers 1 to N
 
 Input:
 
 ```java
-for(int i=0;i<orders.size();i++) {
-    process(orders.get(i));
-}
+N = 5
 ```
 
-### Answer
+Output:
+
+```text
+15
+```
+
+**Solution**
 
 ```java
-for(Order order : orders) {
-    process(order);
+int sum = 0;
+
+for(int i = 1; i <= 5; i++) {
+    sum += i;
+}
+
+System.out.println(sum);
+```
+
+---
+
+## 3. Count Even Numbers
+
+**Solution**
+
+```java
+for(int i = 1; i <= 100; i++) {
+
+    if(i % 2 == 0) {
+        System.out.println(i);
+    }
+
 }
 ```
+
+---
+
+## 4. Find Maximum Element
+
+**Solution**
+
+```java
+int[] arr = {4, 8, 2, 10, 3};
+
+int max = arr[0];
+
+for(int num : arr) {
+
+    if(num > max) {
+        max = num;
+    }
+
+}
+
+System.out.println(max);
+```
+
+---
+
+## 5. Count Occurrences
+
+Input:
+
+```java
+{1,2,3,2,2,4}
+```
+
+Count occurrences of 2.
+
+**Solution**
+
+```java
+int count = 0;
+
+for(int num : arr) {
+
+    if(num == 2) {
+        count++;
+    }
+
+}
+```
+
+---
+
+## 6. Remove Invalid Users
+
+Given:
+
+```java
+List<User>
+```
+
+Create another list containing only active users.
+
+**Solution**
+
+```java
+List<User> activeUsers = new ArrayList<>();
+
+for(User user : users) {
+
+    if(user.isActive()) {
+        activeUsers.add(user);
+    }
+
+}
+```
+
+This exercise resembles actual Spring Boot service-layer code.
