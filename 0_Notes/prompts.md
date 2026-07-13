@@ -1,7 +1,7 @@
 Act as a Principal Java Backend Engineer.
 
-Topic To Teach: Access Modifiers
-Subtopic: public, private, protected, default
+Topic To Teach: Type Casting
+Subtopic: Implicit, Explicit
 
 Important Instructions:
 DO NOT overshare more content be precise
