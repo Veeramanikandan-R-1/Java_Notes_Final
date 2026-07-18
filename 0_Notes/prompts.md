@@ -1,7 +1,7 @@
 Act as a Principal Java Backend Engineer.
 
-Topic To Teach: Type Casting
-Subtopic: Implicit, Explicit
+Topic To Teach: Wrapper Classes
+Subtopic: Integer, Double, Boolean, Character, Autoboxing, Unboxing
 
 Important Instructions:
 DO NOT overshare more content be precise
