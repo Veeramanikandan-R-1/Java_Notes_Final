@@ -1,7 +1,7 @@
 Act as a Principal Java Backend Engineer.
 
-Topic To Teach: Wrapper Classes
-Subtopic: Integer, Double, Boolean, Character, Autoboxing, Unboxing
+Topic To Teach: Arrays Utility
+Subtopic: sort, binarySearch, fill, copyOf, equals
 
 Important Instructions:
 DO NOT overshare more content be precise
