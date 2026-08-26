@@ -1,1454 +1,525 @@
-# Git for Senior Java Backend Engineers
+# Git — Must-Know Commands for Spring Boot
 
-**Perspective: Principal Java Backend Engineer**
+As a Spring Boot developer, you should be comfortable with the **daily Git workflow**, branching, merging/rebasing, undoing changes, and resolving conflicts.
 
-Git is not just a source control tool. In modern backend engineering, Git is:
-
-* The foundation of CI/CD
-* The audit trail of production systems
-* The collaboration layer for distributed teams
-* The deployment trigger for cloud-native applications
-* The recovery mechanism during outages
-
-Senior engineers are expected to understand not only Git commands but also Git internals, branching strategies, repository health, security, and production workflows.
-
----
-
-# 1. Fundamentals
-
-## What is Git?
-
-Git is a **distributed version control system (DVCS)**.
-
-Every developer has:
-
-* Full repository
-* Entire commit history
-* Branches
-* Tags
-
-Unlike SVN:
-
-```text
-SVN
-Client -> Central Server
-
-Git
-Developer A <-> Developer B
-       \       /
-      Remote Repository
-```
-
----
-
-## Core Concepts
-
-### Repository
-
-Contains:
-
-```text
-.git/
-src/
-pom.xml
-README.md
-```
-
-Git stores history in `.git`.
-
----
-
-### Commit
-
-Snapshot of project state.
+## 1. Repository Setup
 
 ```bash
-git commit -m "Add payment service"
+git init
 ```
 
-Think:
-
-```java
-ProjectState v1
-ProjectState v2
-ProjectState v3
-```
-
-Each commit points to a snapshot.
-
----
-
-### Branch
-
-Pointer to a commit.
+Creates a new local Git repository.
 
 ```bash
-git branch feature/payment
+git clone <url>
 ```
 
-Branches are lightweight.
-
----
-
-### Merge
-
-Combines histories.
+Downloads an existing remote repository.
 
 ```bash
-git merge feature/payment
+git remote -v
 ```
+
+Shows connected remote repositories.
 
 ---
 
-### Rebase
-
-Rewrites history.
+## 2. Check Changes
 
 ```bash
-git rebase main
+git status
 ```
 
-Creates cleaner history.
+Shows:
 
----
+* Modified files
+* Untracked files
+* Staged files
+* Current branch
 
-### Remote
-
-Shared repository.
+**One of the most frequently used commands.**
 
 ```bash
-git remote add origin <url>
+git diff
 ```
 
----
-
-# 2. Internal Working
-
-Most developers use Git for years without understanding how it works.
-
-Senior engineers should.
-
----
-
-## Git Object Model
-
-Git stores four objects:
-
-### Blob
-
-File content.
-
-```java
-public class User {}
-```
-
-Stored as blob.
-
----
-
-### Tree
-
-Directory structure.
-
-```text
-src/
- └── User.java
-```
-
-Stored as tree.
-
----
-
-### Commit
-
-Metadata.
-
-```text
-Author
-Date
-Message
-Parent Commit
-Tree Reference
-```
-
----
-
-### Tag
-
-Named reference.
+Shows unstaged changes.
 
 ```bash
-git tag v1.0
+git diff --staged
 ```
+
+Shows staged changes.
 
 ---
 
-## Commit Graph
-
-```text
-A -> B -> C -> D
-```
-
-Each commit contains hash of parent.
-
-Example:
-
-```text
-Commit D
-Parent = C
-
-Commit C
-Parent = B
-```
-
-Forms DAG.
-
-**Directed Acyclic Graph**
-
----
-
-## SHA Hashes
-
-Git identifies objects using SHA.
-
-Example:
-
-```text
-8f14e45fceea167a5a36dedd4bea2543
-```
-
-Modern Git increasingly supports SHA-256.
-
----
-
-## HEAD
-
-Current checked-out commit.
+## 3. Add & Commit
 
 ```bash
-HEAD -> main
+git add .
 ```
 
-or
-
-```bash
-HEAD -> commit
-```
-
-(detached head)
-
----
-
-## Three Areas
-
-### Working Directory
-
-Actual files.
-
-```java
-UserService.java
-```
-
----
-
-### Staging Area
-
-Index.
+Stages all changes.
 
 ```bash
 git add UserService.java
 ```
 
----
-
-### Repository
-
-Commit history.
+Stages a specific file.
 
 ```bash
+git commit -m "Add user service"
+```
+
+Creates a commit.
+
+Typical workflow:
+
+```text
+Modify
+  ↓
+git add
+  ↓
 git commit
 ```
 
-Flow:
-
-```text
-Working Directory
-       ↓
-Staging Area
-       ↓
-Repository
-```
-
 ---
 
-# 3. Production Usage
-
-Large organizations use Git differently than tutorials.
-
----
-
-## GitFlow
-
-Branches:
-
-```text
-main
-develop
-feature/*
-release/*
-hotfix/*
-```
-
-Good for:
-
-* Enterprise software
-* Long release cycles
-
----
-
-## Trunk-Based Development
-
-Google-style.
-
-```text
-main
- ├── small feature
- ├── small feature
- └── small feature
-```
-
-Advantages:
-
-* Faster releases
-* Less merge conflicts
-
-Common in:
-
-* Netflix
-* Google
-* Uber
-
----
-
-## Production Hotfix
-
-```text
-main
- └── hotfix/payment-failure
-```
-
-Deploy immediately.
-
-Merge back afterward.
-
----
-
-## Release Tags
+## 4. Push & Pull
 
 ```bash
-git tag v2.1.0
+git push
 ```
 
-Deployment pipelines often deploy tags.
-
----
-
-## Rollbacks
+Uploads local commits to the remote repository.
 
 ```bash
-git revert commitHash
+git pull
 ```
 
-Preferred over:
+Downloads remote changes and integrates them into your current branch.
 
-```bash
-git reset --hard
-```
-
-because history remains intact.
-
----
-
-# 4. Performance Considerations
-
-Important for large repositories.
-
----
-
-## Problem: Huge Repository
-
-Example:
+Conceptually:
 
 ```text
-500k files
-20 GB history
+git pull = git fetch + git merge
 ```
 
-Operations become slow.
-
----
-
-## Shallow Clone
-
-```bash
-git clone --depth=1
-```
-
-Downloads only latest history.
-
-Useful in CI.
-
----
-
-## Sparse Checkout
-
-Checkout only needed folders.
-
-```bash
-git sparse-checkout init
-git sparse-checkout set service-a
-```
-
-Monorepos use this heavily.
-
----
-
-## Partial Clone
-
-```bash
-git clone --filter=blob:none
-```
-
-Fetch file contents lazily.
-
-Huge performance gain.
-
----
-
-## Avoid Giant Binary Files
-
-Bad:
-
-```text
-video.mp4
-dump.zip
-```
-
-Git performs poorly.
-
-Use:
-
-```text
-S3
-Artifactory
-Git LFS
-```
-
----
-
-## Git GC
-
-Garbage collection.
-
-```bash
-git gc
-```
-
-Compresses objects.
-
-Removes unreachable objects.
-
----
-
-# 5. Memory Considerations
-
-Git stores objects efficiently.
-
----
-
-## Delta Compression
-
-Instead of storing:
-
-```text
-File v1 = 10 MB
-File v2 = 10 MB
-File v3 = 10 MB
-```
-
-Git stores:
-
-```text
-v1
-delta(v2-v1)
-delta(v3-v2)
-```
-
-Huge memory savings.
-
----
-
-## Packfiles
-
-Git compresses objects.
-
-```bash
-.git/objects
-```
-
-becomes
-
-```text
-pack-xxx.pack
-```
-
-Much smaller.
-
----
-
-## Memory Problems
-
-Large:
-
-```text
-git log
-git blame
-git merge
-```
-
-may consume significant RAM in huge repos.
-
-Common in monorepos.
-
----
-
-# 6. Security Considerations
-
-Very important for senior engineers.
-
----
-
-## Never Commit Secrets
-
-Bad:
-
-```yaml
-aws:
-  secret: abc123
-```
-
----
-
-Use:
-
-```bash
-.env
-application-local.yml
-vault
-secrets manager
-```
-
----
-
-## Add .gitignore
-
-```gitignore
-.env
-*.pem
-*.key
-```
-
----
-
-## Secret Scanning
-
-Tools:
-
-```text
-GitGuardian
-TruffleHog
-Gitleaks
-GitHub Secret Scanning
-```
-
----
-
-## Signed Commits
-
-```bash
-git commit -S
-```
-
-Verifies author identity.
-
----
-
-## Branch Protection
-
-Prevent:
-
-```text
-Force Push
-Direct Main Commit
-```
-
-on production branches.
-
----
-
-## If Secret Leaks
-
-Do NOT only delete file.
-
-History still contains it.
-
-Need:
-
-```bash
-git filter-repo
-```
-
-or
-
-```bash
-BFG Repo Cleaner
-```
-
-Then rotate credentials.
-
----
-
-# 7. Spring Boot Usage
-
-Git is deeply integrated with Spring Boot development.
-
----
-
-## Feature Branch Example
-
-```text
-main
-feature/user-service
-feature/payment-api
-```
-
-Each branch modifies:
-
-```java
-@RestController
-@Service
-@Repository
-```
-
-independently.
-
----
-
-## Managing Configuration
-
-Do NOT commit:
-
-```yaml
-application-prod.yml
-```
-
-with secrets.
-
-Instead:
-
-```yaml
-application.yml
-application-dev.yml
-application-prod.yml
-```
-
-Secrets externalized.
-
----
-
-## Git + CI/CD
-
-Push:
-
-```bash
-git push origin main
-```
-
-Triggers:
-
-```text
-GitHub Actions
-Jenkins
-GitLab CI
-Azure DevOps
-```
-
-Pipeline:
-
-```text
-Compile
-Test
-Docker Build
-Deploy
-```
-
----
-
-## Versioning
-
-Generate version from Git tag.
-
-Example:
-
-```text
-v2.4.0
-```
-
-Spring Boot actuator:
-
-```text
-/info
-```
-
-shows deployed version.
-
----
-
-# 8. Database Impact
-
-Git does not store database state directly.
-
-But DB migrations depend on Git.
-
----
-
-## Flyway
-
-```text
-V1__create_user.sql
-V2__add_email.sql
-V3__add_status.sql
-```
-
-Tracked in Git.
-
----
-
-## Merge Conflict Example
-
-Developer A:
-
-```sql
-V4__payment.sql
-```
-
-Developer B:
-
-```sql
-V4__orders.sql
-```
-
-Conflict.
-
-Need:
-
-```sql
-V5
-V6
-```
-
-proper sequencing.
-
----
-
-## Rollbacks
-
-Git rollback != DB rollback
-
-Common mistake.
-
-Need:
-
-```sql
-undo scripts
-```
-
-or
-
-```sql
-forward fix
-```
-
----
-
-# 9. Common Mistakes
-
-## Force Push to Main
-
-```bash
-git push --force
-```
-
-Can destroy history.
-
----
-
-## Huge Commits
-
-Bad:
-
-```text
-500 files
-10000 lines
-```
-
-Review nightmare.
-
----
-
-## Commit Generated Files
-
-Bad:
-
-```text
-target/
-.idea/
-node_modules/
-```
-
----
-
-## Rebase Shared Branch
-
-Dangerous.
-
-```bash
-git rebase
-git push --force
-```
-
-Others suffer.
-
----
-
-## Commit Secrets
-
-Very common production incident.
-
----
-
-## Long-Lived Branches
-
-```text
-feature branch alive for 4 months
-```
-
-Merge conflicts explode.
-
----
-
-# 10. Best Practices
-
-## Small Commits
-
-Good:
-
-```text
-Add payment validation
-```
-
-instead of
-
-```text
-Fix stuff
-```
-
----
-
-## Commit Frequently
-
-```bash
-git commit
-```
-
-small logical units.
-
----
-
-## Rebase Before PR
-
-```bash
-git fetch origin
-git rebase origin/main
-```
-
-Cleaner history.
-
----
-
-## Protect Main
-
-Require:
-
-```text
-PR Review
-CI Pass
-Security Scan
-```
-
----
-
-## Use Conventional Commits
-
-```text
-feat:
-fix:
-refactor:
-test:
-docs:
-```
-
-Example:
-
-```text
-feat(payment): add UPI support
-```
-
----
-
-## Tag Releases
-
-```bash
-git tag v3.2.1
-```
-
----
-
-# 11. Senior-Level Interview Questions
-
-### Q1. Difference between merge and rebase?
-
-Merge:
-
-```text
-A-B-C
-     \
-      D-E
-```
-
-Creates merge commit.
-
-Rebase:
-
-```text
-A-B-C-D-E
-```
-
-Linear history.
-
----
-
-### Q2. What happens during git commit?
-
-Git:
-
-1. Creates tree
-2. Creates commit object
-3. Stores metadata
-4. Updates branch pointer
-
----
-
-### Q3. Explain HEAD.
-
-Pointer to current commit/branch.
-
----
-
-### Q4. Difference between reset, revert, restore?
-
-```bash
-git reset
-```
-
-Move branch pointer.
-
-```bash
-git revert
-```
-
-Create undo commit.
-
-```bash
-git restore
-```
-
-Restore files.
-
----
-
-### Q5. Why is Git fast?
-
-* Content-addressable storage
-* Delta compression
-* Packfiles
-* Local history
-
----
-
-### Q6. What is detached HEAD?
-
-HEAD points directly to commit.
-
-```bash
-git checkout abc123
-```
-
----
-
-### Q7. How does Git detect renames?
-
-Heuristic similarity algorithm.
-
-No explicit rename object.
-
----
-
-### Q8. What is cherry-pick?
-
-Apply specific commit.
-
-```bash
-git cherry-pick commitHash
-```
-
----
-
-### Q9. Explain reflog.
-
-Recovery mechanism.
-
-```bash
-git reflog
-```
-
-Can recover lost commits.
-
----
-
-### Q10. Difference between fetch and pull?
+You can also use:
 
 ```bash
 git fetch
 ```
 
-Download only.
+Downloads remote changes **without modifying your current working branch**.
+
+### Interview difference
+
+**`fetch` vs `pull`:**
+
+* `fetch` → Download changes only.
+* `pull` → Download + integrate changes.
+
+---
+
+# 5. Branches
+
+List branches:
 
 ```bash
-git pull
+git branch
 ```
 
-Fetch + merge/rebase.
-
----
-
-# 12. Code Examples
-
-## Feature Branch Workflow
+Create branch:
 
 ```bash
-git checkout -b feature/payment
+git branch feature/user-api
+```
+
+Switch branch:
+
+```bash
+git switch feature/user-api
+```
+
+Create + switch:
+
+```bash
+git switch -c feature/user-api
+```
+
+Delete branch:
+
+```bash
+git branch -d feature/user-api
+```
+
+Typical Spring Boot workflow:
+
+```text
+main
+  │
+  └── feature/user-api
+          │
+          ├── code
+          ├── commit
+          └── push
+                 ↓
+              Pull Request
 ```
 
 ---
 
-Develop:
+# 6. Merge
 
-```java
-@Service
-public class PaymentService {
-
-    public void process() {
-        System.out.println("Payment processed");
-    }
-}
+```bash
+git switch main
+git merge feature/user-api
 ```
 
----
+Combines the feature branch into `main`.
 
-Commit:
+### Merge conflict
+
+If Git cannot automatically combine changes:
+
+```text
+<<<<<<< HEAD
+your code
+=======
+other branch code
+>>>>>>> feature/user-api
+```
+
+You manually resolve the conflict, then:
 
 ```bash
 git add .
-git commit -m "feat(payment): add payment service"
+git commit
 ```
 
 ---
 
-Push:
+# 7. Rebase ⭐
 
 ```bash
-git push origin feature/payment
+git switch feature/user-api
+git rebase main
 ```
 
----
+Moves your feature commits on top of the latest `main`.
 
-## Interactive Rebase
-
-Before PR:
-
-```bash
-git rebase -i HEAD~3
-```
-
-Options:
+Conceptually:
 
 ```text
-pick
-reword
-squash
-drop
+Before:
+
+main:    A---B---C
+              \
+feature:       D---E
+
+
+After rebase:
+
+main:    A---B---C
+                  \
+feature:           D'---E'
+```
+
+### Merge vs Rebase
+
+**Merge:**
+
+* Preserves branch history
+* May create merge commit
+
+**Rebase:**
+
+* Creates cleaner/linear history
+* Rewrites commit history
+
+⚠️ Avoid rebasing commits that are already shared with others unless you understand the consequences.
+
+---
+
+# 8. View History
+
+```bash
+git log
+```
+
+Compact:
+
+```bash
+git log --oneline
+```
+
+Very useful:
+
+```bash
+git log --oneline --graph --all
+```
+
+Shows branch/commit history visually.
+
+---
+
+# 9. Undo Changes
+
+### Discard unstaged changes
+
+```bash
+git restore file.java
+```
+
+### Unstage a file
+
+```bash
+git restore --staged file.java
+```
+
+### Amend latest commit
+
+```bash
+git commit --amend
+```
+
+Useful when you forgot something in the last commit.
+
+---
+
+# 10. Reset ⭐
+
+```bash
+git reset --soft HEAD~1
+```
+
+Undo last commit but **keep changes staged**.
+
+```bash
+git reset --mixed HEAD~1
+```
+
+Undo last commit and **keep changes unstaged**.
+
+```bash
+git reset --hard HEAD~1
+```
+
+Undo last commit and **delete the changes**.
+
+⚠️ `--hard` can permanently discard work.
+
+---
+
+# 11. Revert ⭐
+
+```bash
+git revert <commit-id>
+```
+
+Creates a **new commit that reverses an existing commit**.
+
+This is generally safer for commits that are already pushed/shared.
+
+### Reset vs Revert
+
+| Command  | What it does                               |
+| -------- | ------------------------------------------ |
+| `reset`  | Moves branch/HEAD backward                 |
+| `revert` | Creates a new commit undoing an old commit |
+
+**Interview answer:**
+For a pushed/shared commit, prefer `git revert` rather than rewriting public history with `git reset`.
+
+---
+
+# 12. Stash
+
+Temporarily save unfinished work:
+
+```bash
+git stash
+```
+
+View stashes:
+
+```bash
+git stash list
+```
+
+Restore:
+
+```bash
+git stash pop
 ```
 
 Example:
 
 ```text
-pick A
-squash B
-squash C
-```
-
-One clean commit.
-
----
-
-## Recover Lost Commit
-
-```bash
-git reflog
-```
-
-Find hash:
-
-```bash
-abc123
-```
-
-Recover:
-
-```bash
-git checkout abc123
-```
-
-or
-
-```bash
-git branch recovery abc123
+You're working on feature A
+        ↓
+Urgent bug on feature B
+        ↓
+git stash
+        ↓
+switch to feature B
+        ↓
+fix bug
+        ↓
+switch back
+        ↓
+git stash pop
 ```
 
 ---
 
-# 13. Real-World Scenarios
+# 13. Cherry-pick ⭐
 
----
+```bash
+git cherry-pick <commit-id>
+```
 
-## Scenario 1: Production Bug
+Copies a specific commit from another branch into your current branch.
 
-Payment service failing.
-
-Current release:
+Example:
 
 ```text
-v2.1.0
+feature-A
+   |
+   D ← useful bug fix
+
+feature-B
+   |
+   E---F
+
+Switch to feature-B
+        ↓
+git cherry-pick D
 ```
 
-Find commit:
+Now the changes from `D` are applied to `feature-B`.
 
-```bash
-git bisect
-```
-
-Binary search through commits.
-
-Much faster than manual debugging.
+Useful for selectively bringing a particular fix/commit.
 
 ---
 
-## Scenario 2: Accidental Deletion
-
-Developer force pushed.
-
-Recover:
+# 14. Remote Branches
 
 ```bash
-git reflog
+git branch -a
 ```
 
-Restore lost commit.
-
----
-
-## Scenario 3: Secret Exposed
-
-AWS key committed.
-
-Steps:
-
-1. Rotate key
-2. Remove history
+Shows local + remote branches.
 
 ```bash
-git filter-repo
+git fetch origin
 ```
 
-3. Force push
-4. Notify security
-
----
-
-## Scenario 4: Monorepo
-
-Repository:
-
-```text
-payments/
-orders/
-inventory/
-shipping/
-```
-
-Use:
+Updates remote-tracking information.
 
 ```bash
-sparse checkout
-partial clone
+git push -u origin feature/user-api
 ```
 
-to improve developer productivity.
+Pushes a new branch and sets its upstream branch.
 
----
-
-## Scenario 5: Release Management
-
-```text
-main
-release/3.1
-hotfix/3.1.1
-```
-
-Tag:
+After that, simply:
 
 ```bash
-git tag v3.1.1
-```
-
-Deploy exact version.
-
----
-
-# Revision Notes
-
-### Must Remember
-
-* Git stores snapshots, not diffs
-* Branch = pointer to commit
-* Commit = tree + metadata + parent
-* HEAD = current location
-* Rebase rewrites history
-* Merge preserves history
-* Revert for production rollback
-* Reflog recovers lost commits
-* Git uses DAG (Directed Acyclic Graph) internally
-* Packfiles and delta compression improve performance
----
-
-# Git Cheat Sheet
-
-### Daily Commands
-
-```bash
-git status
-git add .
-git commit -m "message"
 git push
 git pull
 ```
 
-### Branching
+---
+
+# 15. Force Push ⭐
 
 ```bash
-git branch
-git checkout -b feature/x
-git switch feature/x
+git push --force
 ```
 
-### History
+Overwrites remote history.
+
+Safer alternative:
 
 ```bash
-git log --oneline --graph
-git blame file.java
-git reflog
+git push --force-with-lease
 ```
 
-### Recovery
+`--force-with-lease` checks that the remote branch hasn't changed unexpectedly.
+
+**Prefer `--force-with-lease` over `--force` when force-pushing is actually necessary.**
+
+---
+
+# 16. Tags
+
+Useful for releases:
 
 ```bash
-git restore file.java
-git revert commit
-git reset --hard commit
+git tag v1.0.0
+git push origin v1.0.0
 ```
 
-### Advanced
-
-```bash
-git rebase -i
-git cherry-pick hash
-git bisect start
-git gc
-```
-
----
-
-# Flashcards
-
-### Q
-
-What does HEAD point to?
-
-### A
-
-Current checked-out branch or commit.
-
----
-
-### Q
-
-Difference between merge and rebase?
-
-### A
-
-Merge preserves history, rebase rewrites it.
-
----
-
-### Q
-
-What command recovers lost commits?
-
-### A
-
-```bash
-git reflog
-```
-
----
-
-### Q
-
-What is Git's storage model?
-
-### A
-
-Blob, Tree, Commit, Tag objects.
-
----
-
-### Q
-
-Safest production rollback?
-
-### A
-
-```bash
-git revert
-```
-
----
-
-# Active Recall Questions
-
-1. Explain Git internals without using documentation.
-2. How does Git store commits?
-3. Why is rebase dangerous on shared branches?
-4. How would you recover a deleted commit?
-5. How does Git compress repository data?
-6. How would you remove secrets from history?
-7. What branching strategy would you choose for microservices?
-8. How would Git integrate with Flyway migrations?
-9. How would you debug a production bug using git bisect?
-10. How would you manage a 20 GB monorepo?
-
----
-
-# Hands-on Exercises
-
-### Exercise 1
-
-Create:
+Example:
 
 ```text
-main
-feature/payment
-feature/order
+v1.0.0 → Production release
+v1.1.0 → New features
 ```
 
-Perform:
+---
+
+# 🔥 Must-Memorize Git Commands
+
+For your Spring Boot interviews, know these particularly well:
 
 ```bash
-merge
-rebase
-cherry-pick
+git clone
+git status
+git add
+git commit
+git push
+git pull
+git fetch
+
+git branch
+git switch
+git merge
+git rebase
+
+git log
+git diff
+
+git stash
+git cherry-pick
+
+git reset
+git revert
+git restore
+
+git tag
 ```
 
-Observe commit graph.
-
----
-
-### Exercise 2
-
-Accidentally delete a branch.
-
-Recover using:
+### One interview-level workflow
 
 ```bash
-git reflog
+git clone <repo>
+git switch -c feature/user-api
+
+# Write Spring Boot code
+
+git status
+git add .
+git commit -m "Add user API"
+
+git fetch origin
+git rebase origin/main
+
+git push -u origin feature/user-api
 ```
 
----
+Then create a **Pull Request → Code Review → Merge**.
 
-### Exercise 3
-
-Create merge conflicts in:
-
-```java
-PaymentService.java
-```
-
-Resolve manually.
-
----
-
-### Exercise 4
-
-Run:
-
-```bash
-git bisect
-```
-
-to identify a bug-introducing commit.
-
----
-
-### Exercise 5 (Senior Level)
-
-Build a Spring Boot project with:
-
-* GitFlow
-* Flyway migrations
-* GitHub Actions CI/CD
-* Release tags
-* Conventional commits
-* Protected main branch
-
-This mirrors what many senior backend teams use in production and is excellent preparation for Senior Java Backend Engineer interviews.
+**Most important concepts to deeply understand:** `merge vs rebase`, `reset vs revert`, `fetch vs pull`, `stash`, `cherry-pick`, conflict resolution, and `force-with-lease`.
