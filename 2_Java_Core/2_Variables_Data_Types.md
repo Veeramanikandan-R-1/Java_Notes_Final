@@ -191,3 +191,118 @@ Remember these:
 7. `var` provides **compile-time type inference**, not dynamic typing.
 8. `final` prevents reassignment.
 9. Java is **statically typed** — variable types are determined at compile time.
+
+
+---
+
+Q. similar to typeof in js here in java how it can be found?
+
+Yes. Java doesn't have a direct `typeof` operator like JavaScript.
+
+The approach depends on **what you want to check**.
+
+### 1. Check the runtime type of an object → `getClass()`
+
+Similar to:
+
+```js
+typeof value
+```
+
+In Java:
+
+```java
+Integer num = 10;
+
+System.out.println(num.getClass());
+```
+
+Output:
+
+```text
+class java.lang.Integer
+```
+
+Get only the class name:
+
+```java
+System.out.println(num.getClass().getSimpleName());
+```
+
+Output:
+
+```text
+Integer
+```
+
+---
+
+### 2. Check whether an object is a specific type → `instanceof`
+
+This is very common:
+
+```java
+Object value = "Hello";
+
+if (value instanceof String) {
+    System.out.println("It's a String");
+}
+```
+
+Another example:
+
+```java
+Object value = 100;
+
+if (value instanceof Integer) {
+    System.out.println("It's an Integer");
+}
+```
+
+---
+
+### 3. Primitive types
+
+For primitives, you don't use `getClass()` directly:
+
+```java
+int num = 10;
+
+// num.getClass(); ❌
+```
+
+You already know the type from the declaration:
+
+```java
+int num = 10;
+double price = 10.5;
+boolean active = true;
+char grade = 'A';
+```
+
+If you need runtime type information, **boxing** can be used:
+
+```java
+int num = 10;
+
+Object obj = num; // autoboxing: int → Integer
+
+System.out.println(obj.getClass().getSimpleName());
+```
+
+Output:
+
+```text
+Integer
+```
+
+### Quick comparison
+
+| JavaScript              | Java                                   |
+| ----------------------- | -------------------------------------- |
+| `typeof x`              | `x.getClass()`                         |
+| `typeof x === "string"` | `x instanceof String`                  |
+| `typeof x === "number"` | `x instanceof Integer` / `Double` etc. |
+
+**Important:** Java is **statically typed**, so unlike JavaScript, you normally know a variable's type at compile time. Runtime checks like `getClass()` and `instanceof` are mainly useful with **objects, inheritance, and polymorphism**.
+
