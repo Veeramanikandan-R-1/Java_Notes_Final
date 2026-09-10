@@ -161,3 +161,37 @@ Dog d = (Dog) a;            // DOWNCASTING ✅
 **Simple rule:**
 
 > **Upcasting is safe and automatic. Downcasting is explicit and must be done carefully.**
+
+```js
+// full example
+
+import java.util.*;
+
+class Animal {
+    void eat() {
+        System.out.println("Eating");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Barking");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+      System.out.println("Hello, World!");
+      Dog dog = new Dog();
+      Animal animal = dog;   // Upcasting
+
+      animal.eat();
+      // animal.bark(); -> error due to Upcasting
+
+      Dog dobNew = (Dog) animal;
+      dobNew.bark();
+      dobNew.eat(); // - accessing both methods is possible
+    }
+}
+
+```
