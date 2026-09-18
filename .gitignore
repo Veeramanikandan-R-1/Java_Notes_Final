@@ -1,0 +1,69 @@
+# =========================
+# Maven
+# =========================
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Maven generated files
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+
+# =========================
+# IntelliJ IDEA
+# =========================
+.idea/
+*.iml
+*.iws
+*.ipr
+
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+
+
+# =========================
+# Eclipse
+# =========================
+.classpath
+.project
+.settings/
+.factorypath
+
+
+# =========================
+# Java
+# =========================
+*.class
+*.log
+
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+
+# =========================
+# Spring Boot / Local Config
+# =========================
+
+# Local environment files
+.env
+.env.*
+
+# Local application configuration
+application-local.properties
+application-local.yml
+application-local.yaml
+
+# Logs
+logs/
+*.log
