@@ -1,24 +1,17 @@
 package com.springapp.demo;
 
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-@SpringBootApplication
-public class DemoApplication implements CommandLineRunner {
-	private final OrderService orderSer;
+public class DemoApplication {
 
-	public DemoApplication(OrderService orderSer) {
-		this.orderSer = orderSer;
-	}
+    public static void main(String[] args) {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
-	@Override
-	public void run(String... args) {
-		orderSer.createOrder();
-	}
+        UserService userService = context.getBean(UserService.class);
 
+        userService.execute();
+        context.close();
+    }
 }
