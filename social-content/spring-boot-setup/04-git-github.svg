@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#081226"/><stop offset="1" stop-color="#102b4c"/></linearGradient><linearGradient id="accent" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#51e0d0"/><stop offset="1" stop-color="#54a8ff"/></linearGradient></defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/><circle cx="920" cy="270" r="290" fill="#1c4771" opacity=".2"/>
+  <text x="90" y="170" fill="#76eee1" font-family="Arial,sans-serif" font-size="27" font-weight="700" letter-spacing="3">04 / VERSION CONTROL</text>
+  <text x="90" y="365" fill="#f6f9ff" font-family="Arial,sans-serif" font-size="88" font-weight="800">Git + GitHub</text>
+  <text x="95" y="455" fill="#b8c8dc" font-family="Arial,sans-serif" font-size="36">Track your work. Share it with your team.</text>
+  <g transform="translate(90 570)">
+    <rect width="420" height="190" rx="30" fill="#10213a" stroke="#284565" stroke-width="2"/>
+    <text x="48" y="75" fill="#51e0d0" font-family="Arial,sans-serif" font-size="27" font-weight="700" letter-spacing="2">LOCAL</text>
+    <text x="48" y="135" fill="#f6f9ff" font-family="Arial,sans-serif" font-size="44" font-weight="800">Git</text>
+    <text x="48" y="170" fill="#9cb4d1" font-family="Arial,sans-serif" font-size="22">Version control on your machine</text>
+    <path d="M442 96h45m-16-16 16 16-16 16" fill="none" stroke="url(#accent)" stroke-width="5"/>
+    <rect x="510" width="390" height="190" rx="30" fill="#10213a" stroke="#284565" stroke-width="2"/>
+    <text x="558" y="75" fill="#51e0d0" font-family="Arial,sans-serif" font-size="27" font-weight="700" letter-spacing="2">REMOTE</text>
+    <text x="558" y="135" fill="#f6f9ff" font-family="Arial,sans-serif" font-size="44" font-weight="800">GitHub</text>
+    <text x="558" y="170" fill="#9cb4d1" font-family="Arial,sans-serif" font-size="22">Host repos + collaborate</text>
+  </g>
+  <text x="95" y="875" fill="#f6f9ff" font-family="Arial,sans-serif" font-size="33" font-weight="700">A simple project workflow</text>
+  <g transform="translate(90 925)">
+    <rect width="900" height="540" rx="34" fill="#050d1a" stroke="#284565" stroke-width="2"/>
+    <circle cx="52" cy="54" r="8" fill="#51e0d0"/><circle cx="82" cy="54" r="8" fill="#54a8ff"/><circle cx="112" cy="54" r="8" fill="#f1bd68"/>
+    <text x="55" y="135" fill="#9cb4d1" font-family="monospace" font-size="25"># Save and publish your changes</text>
+    <text x="55" y="210" fill="#8df0df" font-family="monospace" font-size="31">git add .</text>
+    <text x="55" y="270" fill="#8df0df" font-family="monospace" font-size="31">git commit -m "Add user API"</text>
+    <text x="55" y="330" fill="#8df0df" font-family="monospace" font-size="31">git push</text>
+    <path d="M55 365h790" stroke="#284565" stroke-width="2"/>
+    <text x="55" y="430" fill="#f6f9ff" font-family="Arial,sans-serif" font-size="28" font-weight="700">GitHub → Pull Request → Code Review → Merge</text>
+    <text x="55" y="485" fill="#9cb4d1" font-family="Arial,sans-serif" font-size="23">A PR is a request to review and merge your changes.</text>
+  </g>
+  <text x="95" y="1590" fill="#b8c8dc" font-family="Arial,sans-serif" font-size="30">Tip: make a feature branch before you start.</text>
+  <text x="90" y="1780" fill="#8ba2bd" font-family="Arial,sans-serif" font-size="25">JAVA • SPRING BOOT SETUP</text><text x="990" y="1780" text-anchor="end" fill="#8ba2bd" font-family="Arial,sans-serif" font-size="25">04 / 06</text>
+</svg>

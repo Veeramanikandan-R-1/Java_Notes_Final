@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#081226"/><stop offset="1" stop-color="#102b4c"/></linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#51e0d0"/><stop offset="1" stop-color="#54a8ff"/></linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+  <circle cx="900" cy="330" r="270" fill="#1c4771" opacity=".22"/>
+  <circle cx="140" cy="1540" r="330" fill="#28c9bb" opacity=".08"/>
+  <path d="M80 250h90M125 205v90M905 1460h95m-47-47v95" stroke="#68e5db" stroke-width="4" opacity=".5"/>
+  <rect x="100" y="145" width="300" height="64" rx="32" fill="#123b52"/>
+  <text x="250" y="188" text-anchor="middle" fill="#76eee1" font-family="Arial,sans-serif" font-size="26" font-weight="700" letter-spacing="3">JAVA • SPRING BOOT</text>
+  <text x="90" y="600" fill="#f6f9ff" font-family="Arial,sans-serif" font-size="94" font-weight="800">
+    <tspan x="90" dy="0">Starting</tspan><tspan x="90" dy="112">Spring Boot?</tspan>
+  </text>
+  <text x="95" y="865" fill="#51e0d0" font-family="Arial,sans-serif" font-size="62" font-weight="700">Set up your toolkit.</text>
+  <text x="95" y="970" fill="#b8c8dc" font-family="Arial,sans-serif" font-size="38">
+    <tspan x="95" dy="0">The essentials to start building</tspan><tspan x="95" dy="55">Java apps — in under a minute.</tspan>
+  </text>
+  <g transform="translate(95 1190)">
+    <rect width="890" height="270" rx="32" fill="#10213a" stroke="#284565" stroke-width="2"/>
+    <text x="48" y="88" fill="#9cb4d1" font-family="Arial,sans-serif" font-size="26" font-weight="700" letter-spacing="2">YOUR STARTER STACK</text>
+    <text x="48" y="168" fill="#f6f9ff" font-family="Arial,sans-serif" font-size="38" font-weight="700">JDK 21</text>
+    <text x="238" y="168" fill="#55dccc" font-family="Arial,sans-serif" font-size="38">+</text>
+    <text x="292" y="168" fill="#f6f9ff" font-family="Arial,sans-serif" font-size="38" font-weight="700">IDE</text>
+    <text x="420" y="168" fill="#55dccc" font-family="Arial,sans-serif" font-size="38">+</text>
+    <text x="474" y="168" fill="#f6f9ff" font-family="Arial,sans-serif" font-size="38" font-weight="700">Git</text>
+    <text x="584" y="168" fill="#55dccc" font-family="Arial,sans-serif" font-size="38">+</text>
+    <text x="638" y="168" fill="#f6f9ff" font-family="Arial,sans-serif" font-size="38" font-weight="700">Maven</text>
+    <text x="48" y="224" fill="#8ca6c3" font-family="Arial,sans-serif" font-size="25">Let’s get your environment ready.</text>
+  </g>
+  <text x="90" y="1780" fill="#8ba2bd" font-family="Arial,sans-serif" font-size="25" letter-spacing="2">01 / 06</text>
+  <text x="990" y="1780" text-anchor="end" fill="#8ba2bd" font-family="Arial,sans-serif" font-size="25">SAVE THIS GUIDE ↗</text>
+</svg>
