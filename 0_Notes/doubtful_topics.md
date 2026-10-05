@@ -1,8 +1,8 @@
 1. upcast & downcast
 
 Spring Core	14	Bean Lifecycle	Spring Context	Examples	done
-Spring Core	14	Scopes	Singleton, Prototype	Examples	Not Started
-Spring Core	14	Dependency Injection	Constructor, Setter, Field Injection	DI Examples	Not Started
+Spring Core	14	Scopes	Singleton, Prototype	Examples	done
+Spring Core	14	Dependency Injection	Constructor, Setter, Field Injection	DI Examples	done
 Spring Core	15	Configuration	@Configuration, @Bean, @ConfigurationProperties	Examples	Not Started
 Spring Core	15	Bean Scopes	Request, Session	Examples	Not Started
 Spring Core	15	AOP	Logging Aspect	Implementation	Not Started
