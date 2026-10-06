@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Component
 @Scope("prototype")
 @Service
-public class UserService{
+public class UserService1{
 
     @Autowired
     private UserRepository userRep;
