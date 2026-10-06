@@ -3,9 +3,11 @@ package com.springapp.demo;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Component
 @Scope("prototype")
+@Service
 public class UserService{
 
     @Autowired
@@ -18,5 +20,9 @@ public class UserService{
 
     public void createUser(){
         userRep.save();
+    }
+
+    public void deleteUser(){
+        System.out.println("User deleted");
     }
 }

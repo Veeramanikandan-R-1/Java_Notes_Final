@@ -4,8 +4,8 @@ Spring Core	14	Bean Lifecycle	Spring Context	Examples	done
 Spring Core	14	Scopes	Singleton, Prototype	Examples	done
 Spring Core	14	Dependency Injection	Constructor, Setter, Field Injection	DI Examples	done
 Spring Core	15	Configuration	@Configuration, @Bean, @ConfigurationProperties	Examples	done
-Spring Core	15	Bean Scopes	Request, Session	Examples	Not Started
-Spring Core	15	AOP	Logging Aspect	Implementation	Not Started
+Spring Core	15	Bean Scopes	Request, Session	Examples	done
+Spring Core	15	AOP	Logging Aspect	Implementation	done
 Spring Core	15	Events	Application Events	Examples	Not Started
 Spring Boot	16	Why Spring Boot	Need and Advantages		Not Started
 Spring Boot	16	Spring Boot Project Structure	src/main, resources, application.properties, application.yml	Project Setup	Not Started

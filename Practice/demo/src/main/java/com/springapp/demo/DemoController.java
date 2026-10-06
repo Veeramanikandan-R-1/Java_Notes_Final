@@ -2,6 +2,8 @@ package com.springapp.demo;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
 public class DemoController {
@@ -15,7 +17,7 @@ public class DemoController {
 
     @GetMapping("/hello")
     public String hello() {
-        return "Hello Spring Boot!";
+        return "Hello Spring Boot Mani!";
     }
 
     @GetMapping("/request")
@@ -31,6 +33,6 @@ public class DemoController {
     @GetMapping("/login/{name}")
     public String login(@PathVariable String name) {
         userSess.setUserName(name);
-        return "Logged in as " + name;
+        return "Logged in as new" + name;
     }
 }
