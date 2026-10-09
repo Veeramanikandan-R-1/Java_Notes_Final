@@ -1,26 +1,26 @@
 package com.springapp.demo.service;
 
-import com.springapp.demo.event.UserCreatedEvent;
-import org.springframework.context.ApplicationEventPublisher;
+import com.springapp.demo.dto.UserRequestDto;
+import com.springapp.demo.dto.UserResponseDto;
+import com.springapp.demo.entity.User;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class UserService {
-    private final ApplicationEventPublisher eventPublisher;
+    private final AtomicLong idGenerator = new AtomicLong();
 
-    public UserService(ApplicationEventPublisher eventPublisher){
-        this.eventPublisher = eventPublisher;
-    }
+    public UserResponseDto createUser(UserRequestDto request){
 
-    public void createUser(){
-        System.out.println("User creation started");
+        User user = new User(
+            idGenerator.incrementAndGet(),
+            request.getName(),
+            request.getEmail(),
+            request.getPassword()
+        );
 
-        Long userId = 101L;
-        String userName = "John";
-
-        eventPublisher.publishEvent(new UserCreatedEvent(userId, userName));
-
-        System.out.println("User creation ended");
+        return new UserResponseDto(user.getId(), user.getName(), user.getEmail());
     }
 }
 

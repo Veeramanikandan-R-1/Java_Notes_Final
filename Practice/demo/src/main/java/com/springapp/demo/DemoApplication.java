@@ -6,7 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
-import com.springapp.demo.service.UserService;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -29,9 +28,8 @@ public class DemoApplication {
     }
 
     @Bean
-    CommandLineRunner run(UserService userService) {
+    CommandLineRunner run() {
         return args -> {
-            userService.createUser();
         };
     }
 }

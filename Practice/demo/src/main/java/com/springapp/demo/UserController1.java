@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserController{
+public class UserController1{
 
     private final List<User> users = new ArrayList<>();
     @PostMapping
