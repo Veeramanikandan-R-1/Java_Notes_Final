@@ -1,9 +1,9 @@
 1. upcast & downcast
 
 Spring Boot	16	DTO Pattern	Request Response DTOs	Implementation	done
-Spring Boot	17	Validation	Bean Validation	Validation Layer	Not Started
-Spring Boot	17	Exception Handling	Global Exception Handler	Implementation	Not Started
-Spring Boot	17	Logging	SLF4J, Logback	Logging Setup	Not Started
+Spring Boot	17	Validation	Bean Validation	Validation Layer	done
+Spring Boot	17	Exception Handling	Global Exception Handler	Implementation	done
+Spring Boot	17	Logging	SLF4J, Logback	Logging Setup	done
 Spring Boot	17	File Upload & Download	MultipartFile	Implementation	Not Started
 Spring Boot	17	Scheduling	@Scheduled, Cron	Scheduler Demo	Not Started
 Spring Boot	17	Async Processing	@Async, TaskExecutor	Async Demo	Not Started

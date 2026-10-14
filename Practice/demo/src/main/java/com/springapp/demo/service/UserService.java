@@ -3,6 +3,8 @@ package com.springapp.demo.service;
 import com.springapp.demo.dto.UserRequestDto;
 import com.springapp.demo.dto.UserResponseDto;
 import com.springapp.demo.entity.User;
+import com.springapp.demo.exception.UserNotFoundException;
+
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -21,6 +23,13 @@ public class UserService {
         );
 
         return new UserResponseDto(user.getId(), user.getName(), user.getEmail());
+    }
+
+    public String getUserById(Long id){
+        if(id!=1L){
+            throw new UserNotFoundException("User not found with id: "+id);
+        }
+        return "Mani";
     }
 }
 
