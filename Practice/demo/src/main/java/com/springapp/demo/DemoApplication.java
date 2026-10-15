@@ -9,9 +9,11 @@ import org.springframework.context.annotation.Bean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @EnableScheduling
+@EnableAsync
 public class DemoApplication {
     private static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);
 
