@@ -8,13 +8,5 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @ComponentScan("com.springapp.demo")
 @EnableConfigurationProperties(AppProperties.class)
 public class AppConfig { 
-    @Bean
-    public EmailClient emailClient(){
-        return new EmailClient();
-    }
-
-    @Bean
-    public EmailService emailService(EmailClient emailClient){
-        return new EmailService(emailClient);
-    }
+   
 }
