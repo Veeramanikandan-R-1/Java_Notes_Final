@@ -306,3 +306,61 @@ Integer
 
 **Important:** Java is **statically typed**, so unlike JavaScript, you normally know a variable's type at compile time. Runtime checks like `getClass()` and `instanceof` are mainly useful with **objects, inheritance, and polymorphism**.
 
+---
+
+# Java — Static Variable
+
+## 1. What is a Static Variable?
+
+A static variable is a class-level variable shared by all objects of that class. It belongs to the class rather than individual objects.
+
+Declare it using the `static` keyword.
+
+## 2. Example
+
+```
+class Employee {
+    int id;
+    static String company = "HCL";
+
+    Employee(int id) {
+        this.id = id;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Employee e1 = new Employee(101);
+        Employee e2 = new Employee(102);
+
+        System.out.println(e1.id);       // 101
+        System.out.println(e2.id);       // 102
+        System.out.println(e1.company);  // HCL
+        System.out.println(e2.company);  // HCL
+
+        Employee.company = "TCS";
+
+        System.out.println(e1.company);  // TCS
+        System.out.println(e2.company);  // TCS
+    }
+}
+```
+
+## 3. Key Points
+
+- One shared copy: All objects share the same static variable.
+- Memory: It is associated with the class and managed by the JVM.
+- Access: Prefer accessing it using the class name, e.g., `Employee.company`.
+- Use cases: Shared configuration, constants (`static final`), and counters.
+
+## 4. Static vs Instance Variable
+
+| Static Variable         | Instance Variable             |
+| ----------------------- | ----------------------------- |
+| Shared by all objects   | Each object has its own copy  |
+| Declared using `static` | Declared without `static`     |
+| Access using class name | Access using object reference |
+| Example: `company`      | Example: `id`                 |
+
+Interview one-liner: A static variable belongs to the class, and only one shared variable exists for that class rather than a separate copy for every object.
+
