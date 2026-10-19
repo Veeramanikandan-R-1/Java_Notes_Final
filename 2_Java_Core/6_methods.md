@@ -287,3 +287,76 @@ Most important:
 * Use meaningful names like `findUserById()` rather than `process()`
 
 For your Spring Boot path, **method design + OOP + interfaces + collections** are especially important because you'll use them heavily in **Controller → Service → Repository** architecture.
+
+---
+
+# Java — Instance Variable Inside a Static Method
+
+Rule: A static method cannot directly access an instance variable because instance variables belong to objects, whereas static methods belong to the class.
+
+### Example
+
+```
+class Employee {
+    int id = 101; // Instance variable
+
+    static void display() {
+        // System.out.println(id); // Compilation error
+
+        Employee emp = new Employee();
+        System.out.println(emp.id); // 101
+    }
+
+    public static void main(String[] args) {
+        display();
+    }
+}
+```
+
+Output:
+
+```
+101
+```
+
+### Key Points
+
+- Instance variable → belongs to an object.
+- Static method → can be called without creating an object.
+- To access an instance variable inside a static method, create an object or use an existing object reference.
+
+Interview one-liner: A static method cannot access an instance variable directly because it has no implicit object reference (`this`).
+
+---
+
+# Java — Why is `main()` static?
+
+The `main()` method is declared `static` because the JVM must call it without creating an object of the class.
+
+### Example
+
+```
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello Java");
+    }
+}
+```
+
+### Why `static`?
+
+1. No object required: The JVM can call `Main.main()` directly.
+2. Program entry point: Execution starts from the `main()` method.
+3. Avoids unnecessary object creation: The JVM doesn't need to create a `Main` object just to start the program.
+
+### What if `main()` is not static?
+
+```
+public void main(String[] args) {
+    System.out.println("Hello Java");
+}
+```
+
+This is a valid instance method, but it is not a valid standard Java application entry point. The JVM won't use it to start the application.
+
+Interview one-liner: The `main()` method is static so the JVM can invoke it without creating an instance of the class.
