@@ -360,3 +360,58 @@ public void main(String[] args) {
 This is a valid instance method, but it is not a valid standard Java application entry point. The JVM won't use it to start the application.
 
 Interview one-liner: The `main()` method is static so the JVM can invoke it without creating an instance of the class.
+
+---
+
+# Java — Static Block
+
+## 1. What is a Static Block?
+
+A static block is a block of code declared using `static` that executes once when the class is initialized, before the `main()` method runs (if the class is initialized as part of starting the program).
+
+Syntax:
+
+```
+static {
+    // Initialization code
+}
+```
+
+## 2. Example
+
+```
+public class Main {
+
+    static {
+        System.out.println("Static block");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Main method");
+    }
+}
+```
+
+Output:
+
+```
+Static block
+Main method
+```
+
+## 3. Key Points
+
+- Executes once per class initialization, not once per object.
+- Runs before `main()` when the class is initialized during normal application startup.
+- Commonly used to initialize static variables or perform one-time setup.
+- A class can have multiple static blocks; they execute in their order of appearance.
+
+## 4. Static Block vs Constructor
+
+| Static Block                         | Constructor                        |
+| ------------------------------------ | ---------------------------------- |
+| Executes during class initialization | Executes when an object is created |
+| Runs once per class initialization   | Runs for each object creation      |
+| Used for static initialization       | Used for instance initialization   |
+
+Interview one-liner: A static block initializes class-level data and executes once when the JVM initializes the class.
