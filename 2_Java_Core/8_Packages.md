@@ -411,3 +411,7 @@ import org.springframework.web.bind.annotation.RestController;
 ```
 
 This package/import concept is fundamental before moving into **Spring Boot's Controller → Service → Repository package structure**.
+
+---
+
+import * -> import only all files inside the folder not all nested files inside the folder
