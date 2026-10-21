@@ -415,3 +415,64 @@ Main method
 | Used for static initialization       | Used for instance initialization   |
 
 Interview one-liner: A static block initializes class-level data and executes once when the JVM initializes the class.
+
+---
+
+# Java — `Class.forName()`
+
+## 1. What is `Class.forName()`?
+
+`Class.forName()` is a Java method used to load a class dynamically at runtime using its fully qualified name.
+
+It is commonly used in JDBC to load database driver classes.
+
+## 2. Syntax
+
+```
+Class.forName("package.ClassName");
+```
+
+## 3. Example
+
+```
+public class Main {
+    static {
+        System.out.println("Class initialized");
+    }
+
+    public static void main(String[] args) throws ClassNotFoundException {
+        Class.forName("Main");
+        System.out.println("Main method executed");
+    }
+}
+```
+
+Output:
+
+```
+Class initialized
+Main method executed
+```
+
+Explanation:
+
+- `Class.forName("Main")` loads the class if it has not already been loaded.
+- It also initializes the class, executing its static initialization block if initialization hasn't occurred already.
+- If the class cannot be found, it throws `ClassNotFoundException`.
+
+## 4. Common use case — JDBC
+
+```
+Class.forName("com.mysql.cj.jdbc.Driver");
+```
+
+This loads and initializes the MySQL JDBC driver. In modern JDBC, drivers are generally discovered automatically, so this call is often unnecessary.
+
+## 5. Important points
+
+- Loads a class dynamically by name.
+- By default, initializes the class, including its static initialization.
+- Does not create an object; use a constructor or reflection to create one.
+- Throws `ClassNotFoundException` if the class cannot be found.
+
+Interview one-liner: `Class.forName()` dynamically loads and initializes a class at runtime, commonly used in older JDBC driver-loading code.
