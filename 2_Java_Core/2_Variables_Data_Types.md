@@ -364,3 +364,22 @@ public class Main {
 
 Interview one-liner: A static variable belongs to the class, and only one shared variable exists for that class rather than a separate copy for every object.
 
+---
+
+No, Java is not a 100% pure object-oriented programming language.
+
+Why?
+
+- Java supports OOP concepts: encapsulation, inheritance, polymorphism, and abstraction.
+- Java has primitive data types (`int`, `char`, `boolean`, etc.) that are not objects.
+- Java supports `static` methods and variables, which belong to the class rather than individual objects.
+
+Example:
+
+```
+int age = 25; // Primitive, not an object
+
+Integer ageObj = 25; // Integer object (wrapper class)
+```
+
+Interview answer: Java is mostly object-oriented, but not purely object-oriented because it supports primitive data types and static members.

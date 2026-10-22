@@ -195,3 +195,59 @@ public class Main {
 }
 
 ```
+
+---
+
+### Practical Use Cases of Upcasting and Downcasting in Java
+
+1\. Upcasting (Child → Parent)
+
+Use case: To write reusable code that works with different child classes through a common parent type.
+
+```
+class Animal {
+    void sound() {
+        System.out.println("Animal sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Bark");
+    }
+
+    void fetch() {
+        System.out.println("Dog fetches ball");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal a = new Dog(); // Upcasting
+        a.sound();            // Bark
+    }
+}
+```
+
+Practical example: A method can accept `Animal` and work with `Dog`, `Cat`, or other subclasses.
+
+2\. Downcasting (Parent → Child)
+
+Use case: To access child-specific methods when a parent reference actually points to a child object.
+
+```
+Animal a = new Dog(); // Upcasting
+
+if (a instanceof Dog) {
+    Dog d = (Dog) a;  // Downcasting
+    d.fetch();        // Dog fetches ball
+}
+```
+
+Practical example: In a UI framework, you may receive a general component reference and need to access a specific component's functionality.
+
+Remember:
+
+- Upcasting: Safe, implicit, supports polymorphism.
+- Downcasting: Explicit, potentially unsafe; check with `instanceof` first.
