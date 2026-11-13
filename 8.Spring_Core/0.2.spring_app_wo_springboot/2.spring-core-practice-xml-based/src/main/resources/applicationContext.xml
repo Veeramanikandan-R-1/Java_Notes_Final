@@ -11,8 +11,7 @@
 
     <!-- Field Injection -->
     <bean id="studentService"
-          class="com.example.StudentService">
-        <property name="student" ref="student"/>
+          class="com.example.StudentService" autowire="byName">
     </bean>
 
 </beans>

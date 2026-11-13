@@ -1,11 +1,15 @@
 package com.example;
 
-@Service
+// autowiring
 public class StudentService {
 
     private Student student;
 
-    public void getStudentDetails() {
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public void getDetails() {
         student.display();
     }
 }
