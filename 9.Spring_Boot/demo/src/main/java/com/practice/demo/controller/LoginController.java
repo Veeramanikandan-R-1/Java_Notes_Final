@@ -1,9 +1,9 @@
-package com.practice.demo;
+package com.practice.demo.controller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
-public class HelloController {
+public class LoginController {
 
     @RequestMapping("/hello")
     public String hello() {
