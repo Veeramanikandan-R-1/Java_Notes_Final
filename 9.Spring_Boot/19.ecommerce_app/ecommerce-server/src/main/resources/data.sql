@@ -1,0 +1,6 @@
+Insert into Product (name, price, quantity, description, brand, category, release_date, available) values 
+('Product 1', 19.99, 10, 'Description for Product 1', 'Brand A', 'Category X', '2023-01-01', true),
+('Product 2', 29.99, 5, 'Description for Product 2', 'Brand B', 'Category Y', '2023-02-15', true),
+('Product 3', 9.99, 20, 'Description for Product 3', 'Brand C', 'Category Z', '2023-03-10', false),
+('Product 4', 49.99, 8, 'Description for Product 4', 'Brand D', 'Category X', '2023-04-05', true),
+('Product 5', 15.99, 12, 'Description for Product 5', 'Brand E', 'Category Y', '2023-05-20', true);
