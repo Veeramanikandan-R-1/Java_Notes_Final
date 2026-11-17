@@ -6,6 +6,14 @@ const ProductCard = (product) => {
   const navigate = useNavigate();
   return (
     <div style={{border: "1px solid #ccc", padding: "10px", margin: "10px", borderRadius: "5px", width: "200px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", cursor: "pointer"}} onClick={() => navigate(`/product/${product.id}`)}>
+     
+    <img
+        src={`data:${product.imageType};base64,${product.imageData}`}
+        alt={product.imageName}
+        width="100"
+        height="100"
+        style={{objectFit: "cover", borderRadius: "5px"}}
+    />
       <h3 style={{margin: "0"}}>{product.name}</h3>
       <p style={{margin: "5px 0"}}>{product.description}</p>
       <p style={{margin: "5px 0"}}>${product.price.toFixed(2)}</p>

@@ -1,4 +1,4 @@
-package com.practice.ecommerce_server.model;
+package com.example.demo.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,14 +11,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity 
-@Data 
-@AllArgsConstructor 
-@NoArgsConstructor 
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String name;
     private BigDecimal price;
     private int quantity;
@@ -29,9 +29,7 @@ public class Product {
     private boolean available;
     private String imageName;
     private String imageType;
-    @Lob 
+    @Lob
     private byte[] imageData;
 }
 
-
-// give query to load he sample data to db
