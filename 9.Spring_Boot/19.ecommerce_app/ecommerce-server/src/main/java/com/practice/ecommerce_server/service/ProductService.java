@@ -10,10 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Service
 public class ProductService {
 
-    @Autowired
-    private ProductRepo productRepo;
+    private final ProductRepo productRepo;
+
+    ProductService(ProductRepo productRepo) {
+        this.productRepo = productRepo;
+    }
 
     public List<Product> getAllProducts() {
         return productRepo.findAll();
+    }
+
+    public Product getProduct(int productId) {
+        return productRepo.findById(productId).orElse(null);
     }
 }

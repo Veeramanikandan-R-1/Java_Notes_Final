@@ -6,13 +6,21 @@ import com.practice.ecommerce_server.service.ProductService;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.ResponseEntity;
 
 @RestController 
+@CrossOrigin(origins = "https://glorious-tribble-q59vg445r5fxp5p-5173.app.github.dev/")
 @RequestMapping ("/api")
 public class ProductController {
-    @Autowired
-    private ProductService service;
+    private final ProductService service;
+
+    ProductController(ProductService service) {
+        this.service = service;
+    }
     
     @GetMapping
     public String greet() {
@@ -21,8 +29,18 @@ public class ProductController {
     }
     
     @GetMapping("/products")
-    public List<Product> getProducts() {
+    public ResponseEntity<List<Product>> getProducts() {
         System.out.println("Fetching all products...");
-        return service.getAllProducts();
+        return new ResponseEntity<>(service.getAllProducts(), org.springframework.http.HttpStatus.OK);
+    }
+
+    @GetMapping("/product/{productId}")
+    public ResponseEntity<Product> getProduct(@PathVariable int productId) {
+        Product product = service.getProduct(productId);
+        if (product != null) {
+            return ResponseEntity.ok(product);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
