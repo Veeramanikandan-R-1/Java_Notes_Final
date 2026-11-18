@@ -5,3 +5,8 @@ crud operation using jdbc
 jsp html
 
 mvc
+
+
+topics to cover
+
+- handson -> Spring app + mysql
