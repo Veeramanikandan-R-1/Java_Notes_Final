@@ -33,13 +33,23 @@ public class ProductService {
     }
 
     public Product updateProduct(int id, Product product, MultipartFile imageFile) throws IOException {
-        product.setImageData(imageFile.getBytes());
-        product.setImageType(imageFile.getContentType());
-        product.setImageName(imageFile.getOriginalFilename());
+//        product.setImageData(imageFile.getBytes());
+//        product.setImageType(imageFile.getContentType());
+//        product.setImageName(imageFile.getOriginalFilename());
+        System.out.println("imageFile"+imageFile);
+        if (!imageFile.isEmpty()) {
+            product.setImageName(imageFile.getOriginalFilename());
+            product.setImageType(imageFile.getContentType());
+            product.setImageData(imageFile.getBytes());
+        }
         return productRepo.save(product);
     }
 
     public void deleteProduct(int id) {
         productRepo.deleteById(id);
+    }
+
+    public List<Product> searchProduct(String keyword) {
+        return productRepo.searchProduct(keyword);
     }
 }

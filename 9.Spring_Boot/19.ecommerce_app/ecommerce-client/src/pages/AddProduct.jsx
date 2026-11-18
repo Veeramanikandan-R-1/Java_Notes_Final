@@ -27,7 +27,13 @@ const AddProduct = () => {
         );
 
         // Append image file
-        data.append("imageFile", formData.get("imageFile"));
+        
+        // data.append("imageFile", formData.get("imageFile"));
+        const imageFile = formData.get("imageFile");
+
+        if (imageFile && imageFile.size > 0) {
+            data.append("imageFile", imageFile);
+        }
 
         fetch(`${baseURL}/product${isUpdate ? `/${product.id}` : ""}`, {
             method: isUpdate ? "PUT" : "POST",

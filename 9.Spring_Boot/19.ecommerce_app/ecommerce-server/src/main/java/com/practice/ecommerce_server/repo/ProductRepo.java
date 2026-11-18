@@ -1,9 +1,22 @@
-package com.practice.ecommerce_server.repo;
+package com.example.demo.repo;
+
+import com.example.demo.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.practice.ecommerce_server.model.Product;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Integer> {
+
+    @Query("""
+        SELECT p FROM Product p
+        WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%'))
+        OR LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%'))
+        OR LOWER(p.brand) LIKE LOWER(CONCAT('%', :keyword, '%'))
+        OR LOWER(p.category) LIKE LOWER(CONCAT('%', :keyword, '%'))
+        """)
+    List<Product> searchProduct(String keyword);
     // Custom query methods can be defined here if needed
 }

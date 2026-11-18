@@ -24,34 +24,59 @@ const ProductCard = (product) => {
 
 function Home() {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    // Fetch products from API
-    try{
-      const fetchProducts = async () => {
-        setLoading(true);
-        const response = await fetch(productURL);
+    const controller = new AbortController();
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(productURL, { signal: controller.signal });
         console.log("response", response);
         const data = await response.json();
-        setProducts(data);
-      };
-      fetchProducts();
-    }catch(error){
-      console.error("Error fetching products:", error);
-      setError(error);
-    }finally{
-      setLoading(false);
-    }
+        if (!controller.signal.aborted) setProducts(data);
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          console.error("Error fetching products:", error);
+          setError(error);
+        }
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
+    };
+    fetchProducts();
+    return () => controller.abort();
   }, []);
 
-  return <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
+  const changeHandler = (e) => {
+    setSearchTerm(e.target.value);
+    console.log("searchTerm", e.target.value);
+    const fetchProductsBySearchTerm = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`${productURL}/search?keyword=${searchTerm}`);
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProductsBySearchTerm();
+  };
+
+  return <div >
     {loading && <p style={{color: "blue"}}>Loading products...</p>}
     {error && <p style={{color: "red"}}>Error fetching products: {error.message}</p>}
-    {!loading && !error && products.map((product) => (
+    <input type="text" placeholder="Search products..." style={{margin: "10px", padding: "5px", width: "200px"}} onChange={changeHandler} value={searchTerm} />
+    <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
+    {!loading && !error && products.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase())).map((product) => (
       <ProductCard key={product.id} {...product} />
     ))}
+    </div>
   </div>;
 }
 
